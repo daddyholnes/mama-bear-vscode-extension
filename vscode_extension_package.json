@@ -1,0 +1,433 @@
+{
+  "name": "mama-bear-ai",
+  "displayName": "Mama Bear AI Assistant",
+  "description": "🐻 Your personal AI coding assistant with access to 15+ models, RAG system, and agentic capabilities",
+  "version": "1.0.0",
+  "publisher": "podplay-sanctuary",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Productivity",
+    "Snippets",
+    "Education"
+  ],
+  "keywords": [
+    "ai",
+    "assistant",
+    "copilot",
+    "chat",
+    "mama bear",
+    "claude",
+    "gemini",
+    "openai",
+    "agentic",
+    "rag",
+    "express mode"
+  ],
+  "icon": "media/mama-bear-icon.png",
+  "galleryBanner": {
+    "color": "#4A90A4",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mamaBear.openChat",
+        "title": "🐻 Open Mama Bear Chat",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.analyzeFile",
+        "title": "📋 Analyze Current File",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.analyzeProject",
+        "title": "📊 Analyze Entire Project",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.explainCode",
+        "title": "🔍 Explain Selected Code",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.fixCode",
+        "title": "🔧 Fix Selected Code",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.optimizeCode",
+        "title": "⚡ Optimize Current File",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.generateTests",
+        "title": "🧪 Generate Tests",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.takeover",
+        "title": "🤖 Agentic Takeover",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.startCollaboration",
+        "title": "🤝 Start Collaborative Session",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.expressMode",
+        "title": "⚡ Express Mode (Ultra Fast)",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.analyzeRepository",
+        "title": "📁 Analyze Repository",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.generateCommitMessage",
+        "title": "📝 Generate Commit Message",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.createPullRequest",
+        "title": "🔀 Create Pull Request",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.selectModel",
+        "title": "🤖 Select AI Model",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.saveContext",
+        "title": "💾 Save Current Context",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.loadContext",
+        "title": "📂 Load Saved Context",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.browseMcpAgents",
+        "title": "🔌 Browse MCP Agents",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.webSearch",
+        "title": "🔍 Web Search",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.runCommand",
+        "title": "💻 Execute Command",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.openSettings",
+        "title": "⚙️ Open Settings",
+        "category": "Mama Bear"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "mamaBearChat",
+          "name": "🐻 Mama Bear AI",
+          "type": "webview",
+          "when": "true"
+        },
+        {
+          "id": "mamaBearWorkspace",
+          "name": "🤝 Collaborative Workspace",
+          "type": "webview",
+          "when": "true"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "mamaBear.explainCode",
+          "when": "editorHasSelection",
+          "group": "mamaBear"
+        },
+        {
+          "command": "mamaBear.fixCode",
+          "when": "editorHasSelection",
+          "group": "mamaBear"
+        },
+        {
+          "command": "mamaBear.optimizeCode",
+          "when": "editorTextFocus",
+          "group": "mamaBear"
+        },
+        {
+          "command": "mamaBear.generateTests",
+          "when": "editorTextFocus",
+          "group": "mamaBear"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "mamaBear.analyzeFile",
+          "when": "editorTextFocus",
+          "group": "navigation"
+        }
+      ],
+      "scm/title": [
+        {
+          "command": "mamaBear.generateCommitMessage",
+          "when": "scmProvider == git",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "mamaBear.openChat"
+        },
+        {
+          "command": "mamaBear.analyzeFile",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "mamaBear.analyzeProject"
+        },
+        {
+          "command": "mamaBear.explainCode",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "mamaBear.fixCode",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "mamaBear.optimizeCode",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "mamaBear.generateTests",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "mamaBear.takeover"
+        },
+        {
+          "command": "mamaBear.startCollaboration"
+        },
+        {
+          "command": "mamaBear.expressMode"
+        },
+        {
+          "command": "mamaBear.analyzeRepository"
+        },
+        {
+          "command": "mamaBear.generateCommitMessage",
+          "when": "scmProvider == git"
+        },
+        {
+          "command": "mamaBear.createPullRequest",
+          "when": "scmProvider == git"
+        },
+        {
+          "command": "mamaBear.selectModel"
+        },
+        {
+          "command": "mamaBear.saveContext"
+        },
+        {
+          "command": "mamaBear.loadContext"
+        },
+        {
+          "command": "mamaBear.browseMcpAgents"
+        },
+        {
+          "command": "mamaBear.webSearch"
+        },
+        {
+          "command": "mamaBear.runCommand"
+        },
+        {
+          "command": "mamaBear.openSettings"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "mamaBear.openChat",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m"
+      },
+      {
+        "command": "mamaBear.expressMode",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e"
+      },
+      {
+        "command": "mamaBear.explainCode",
+        "key": "ctrl+shift+x",
+        "mac": "cmd+shift+x",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "mamaBear.fixCode",
+        "key": "ctrl+shift+f",
+        "mac": "cmd+shift+f",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "mamaBear.takeover",
+        "key": "ctrl+shift+a",
+        "mac": "cmd+shift+a"
+      },
+      {
+        "command": "mamaBear.webSearch",
+        "key": "ctrl+shift+s",
+        "mac": "cmd+shift+s"
+      }
+    ],
+    "configuration": {
+      "title": "Mama Bear AI",
+      "properties": {
+        "mamaBear.backendUrl": {
+          "type": "string",
+          "default": "http://localhost:5001",
+          "description": "URL of your Mama Bear backend server"
+        },
+        "mamaBear.defaultModel": {
+          "type": "string",
+          "default": "gemini-2.0-flash-exp",
+          "description": "Default AI model to use"
+        },
+        "mamaBear.expressMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Express Mode for 6x faster responses"
+        },
+        "mamaBear.agenticControl": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Level of autonomous control (0 = manual, 1 = full autonomy)"
+        },
+        "mamaBear.codeCompletion": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Mama Bear code completion"
+        },
+        "mamaBear.autoAnalyze": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically analyze files when opened"
+        },
+        "mamaBear.contextMemory": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable persistent context memory"
+        },
+        "mamaBear.webSearch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable web search capabilities"
+        },
+        "mamaBear.mcpIntegration": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable MCP agent integration"
+        },
+        "mamaBear.collaborativeMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable collaborative workspace features"
+        },
+        "mamaBear.debugMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable debug logging"
+        },
+        "mamaBear.completionDebounce": {
+          "type": "number",
+          "default": 300,
+          "description": "Debounce delay for code completion (ms)"
+        },
+        "mamaBear.maxContextLength": {
+          "type": "number",
+          "default": 8000,
+          "description": "Maximum context length for AI requests"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      },
+      {
+        "language": "typescript",
+        "path": "./snippets/typescript.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "@types/node": "14.x",
+    "@types/mocha": "^9.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "eslint": "^8.11.0",
+    "mocha": "^9.2.2",
+    "typescript": "^4.5.5",
+    "@vscode/test-electron": "^2.1.3",
+    "vsce": "^2.7.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "ws": "^8.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/podplay-sanctuary/mama-bear-vscode"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/podplay-sanctuary/mama-bear-vscode/issues"
+  },
+  "homepage": "https://github.com/podplay-sanctuary/mama-bear-vscode#readme",
+  "badges": [
+    {
+      "url": "https://img.shields.io/badge/AI-Powered-brightgreen",
+      "href": "https://github.com/podplay-sanctuary/mama-bear-vscode",
+      "description": "AI Powered"
+    },
+    {
+      "url": "https://img.shields.io/badge/Models-15+-blue",
+      "href": "https://github.com/podplay-sanctuary/mama-bear-vscode",
+      "description": "15+ AI Models"
+    }
+  ]
+}

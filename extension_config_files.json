@@ -1,0 +1,144 @@
+{
+  "tsconfig.json": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "ES2020",
+      "outDir": "out",
+      "lib": ["ES2020"],
+      "sourceMap": true,
+      "rootDir": "src",
+      "strict": true,
+      "moduleResolution": "node",
+      "baseUrl": "./",
+      "paths": {
+        "*": ["node_modules/*"]
+      },
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true
+    },
+    "exclude": ["node_modules", ".vscode-test"]
+  },
+
+  ".vscode/launch.json": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Run Extension",
+        "type": "extensionHost",
+        "request": "launch",
+        "args": [
+          "--extensionDevelopmentPath=${workspaceFolder}"
+        ],
+        "outFiles": [
+          "${workspaceFolder}/out/**/*.js"
+        ],
+        "preLaunchTask": "${workspaceFolder}:npm:watch"
+      },
+      {
+        "name": "Extension Tests",
+        "type": "extensionHost",
+        "request": "launch",
+        "args": [
+          "--extensionDevelopmentPath=${workspaceFolder}",
+          "--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
+        ],
+        "outFiles": [
+          "${workspaceFolder}/out/test/**/*.js"
+        ],
+        "preLaunchTask": "${workspaceFolder}:npm:watch"
+      }
+    ]
+  },
+
+  ".vscode/tasks.json": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "type": "npm",
+        "script": "watch",
+        "problemMatcher": "$tsc-watch",
+        "isBackground": true,
+        "presentation": {
+          "reveal": "never"
+        },
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      },
+      {
+        "type": "npm",
+        "script": "compile",
+        "problemMatcher": "$tsc",
+        "group": "build"
+      }
+    ]
+  },
+
+  ".vscode/settings.json": {
+    "files.exclude": {
+      "out": false,
+      "node_modules": true
+    },
+    "search.exclude": {
+      "out": true,
+      "node_modules": true
+    },
+    "typescript.tsc.autoDetect": "off"
+  },
+
+  ".vscodeignore": [
+    ".vscode/**",
+    ".vscode-test/**",
+    "src/**",
+    ".gitignore",
+    ".yarnrc",
+    "vsc-extension-quickstart.md",
+    "**/tsconfig.json",
+    "**/.eslintrc.json",
+    "**/*.map",
+    "**/*.ts"
+  ],
+
+  ".gitignore": [
+    "out",
+    "node_modules",
+    ".vscode-test/",
+    "*.vsix",
+    ".DS_Store",
+    "Thumbs.db"
+  ],
+
+  "eslintrc.json": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "@typescript-eslint/naming-convention": [
+        "warn",
+        {
+          "selector": "import",
+          "format": ["camelCase", "PascalCase"]
+        }
+      ],
+      "@typescript-eslint/semi": "warn",
+      "curly": "warn",
+      "eqeqeq": "warn",
+      "no-throw-literal": "warn",
+      "semi": "off"
+    },
+    "ignorePatterns": [
+      "out",
+      "dist",
+      "**/*.d.ts"
+    ]
+  }
+}

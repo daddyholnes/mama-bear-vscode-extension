@@ -1,0 +1,131 @@
+{
+  "name": "mama-bear-ai",
+  "displayName": "Mama Bear AI Assistant",
+  "description": "🐻 Your personal AI coding assistant with access to 15+ models, multimodal support, and autonomous capabilities",
+  "version": "1.0.0",
+  "publisher": "podplay-sanctuary",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Other",
+    "Snippets",
+    "Education"
+  ],
+  "keywords": [
+    "ai",
+    "assistant",
+    "copilot",
+    "chat",
+    "mama bear",
+    "claude",
+    "gemini",
+    "multimodal",
+    "autonomous",
+    "mcp"
+  ],
+  "icon": "media/mama-bear-icon.png",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/mama_bear_vscode_extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "mamaBear.openChat",
+        "title": "🐻 Open Mama Bear Chat",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.analyzeFile",
+        "title": "📋 Analyze Current File",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.uploadFile",
+        "title": "📁 Upload File to Chat",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.pasteImage",
+        "title": "🖼️ Paste Image to Chat",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.recordVoice",
+        "title": "🎙️ Record Voice Message",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.backgroundTerminal",
+        "title": "💻 Open Background Terminal",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.mcpTools",
+        "title": "🔧 MCP Tools",
+        "category": "Mama Bear"
+      },
+      {
+        "command": "mamaBear.expressMode",
+        "title": "⚡ Express Mode (Ultra Fast)",
+        "category": "Mama Bear"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "mamaBear.openChat",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m"
+      },
+      {
+        "command": "mamaBear.uploadFile",
+        "key": "ctrl+shift+u",
+        "mac": "cmd+shift+u"
+      },
+      {
+        "command": "mamaBear.pasteImage",
+        "key": "ctrl+shift+v",
+        "mac": "cmd+shift+v"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "mamaBearChat",
+          "name": "Mama Bear Chat",
+          "when": "workspaceHasFolder"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "mamaBearChat",
+        "contents": "🐻 Welcome to Mama Bear AI!\n\n[Open Chat](command:mamaBear.openChat)\n[Upload File](command:mamaBear.uploadFile)\n[Record Voice](command:mamaBear.recordVoice)"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "npx vsce package",
+    "test": "npm run compile && node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.0.1",
+    "@types/vscode": "^1.74.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.5.0",
+    "glob": "^11.0.3",
+    "mocha": "^11.6.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "axios": "^1.10.0",
+    "socket.io-client": "^4.8.1",
+    "ws": "^8.18.2"
+  }
+}
