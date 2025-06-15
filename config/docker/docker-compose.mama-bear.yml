@@ -28,7 +28,7 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/service-account.json
       - MEM0_ENABLED=true
       - MCP_HOST=mama-bear-mcp
-      - MCP_PORT=8811
+      - MCP_PORT=8812
     volumes:
       - /home/woody/CascadeProjects/podplay-scout-alpha/podplay-build-beta-10490f7d079e.json:/app/credentials/service-account.json:ro
       - /home/woody/CascadeProjects/podplay-scout-alpha/backend:/app/backend:ro
@@ -53,32 +53,20 @@ services:
     restart: unless-stopped
 
   mama-bear-mcp:
-    image: node:18-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
     container_name: mama-bear-mcp
     ports:
-      - "8811:8811"
+      - "8812:8812"
     environment:
-      - MCP_PORT=8811
+      - MCP_PORT=8812
       - MCP_HOST=0.0.0.0
-    command: >
-      sh -c "
-        npm init -y &&
-        npm install express &&
-        cat > server.js << 'EOF'
-        const express = require('express');
-        const app = express();
-        app.use(express.json());
-        app.get('/health', (req, res) => res.json({status: 'ok', service: 'mama-bear-mcp'}));
-        app.get('/api/tools', (req, res) => res.json({tools: ['file-operations', 'code-analysis', 'git-operations']}));
-        app.listen(8811, '0.0.0.0', () => console.log('MCP Server running on port 8811'));
-        EOF
-        node server.js
-      "
     networks:
       - revolutionary-dev-network
       - mama-bear-network
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8811/health"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8812/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -108,7 +96,7 @@ services:
 
   code-server-mama-bear:
     build:
-      context: code-server
+      context: ./code-server
       dockerfile: Dockerfile
     container_name: code-server-mama-bear
     ports:
@@ -117,7 +105,7 @@ services:
       - PASSWORD=mama-bear-sanctuary
       - SHELL=/bin/bash
       - MAMA_BEAR_BACKEND_URL=http://mama-bear-backend:5000
-      - MCP_URL=ws://mama-bear-mcp:8811/mcp
+      - MCP_URL=ws://mama-bear-mcp:8812/mcp
     volumes:
       - ../../:/home/coder/workspace/mama-bear-extension:rw
       - /home/woody/CascadeProjects:/home/coder/workspace/projects:ro

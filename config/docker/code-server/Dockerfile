@@ -14,8 +14,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install VS Code extensions
-RUN code-server --install-extension ms-vscode.vscode-typescript-next \
-    && code-server --install-extension ms-vscode.vscode-json
+RUN code-server --install-extension ms-vscode.vscode-typescript-next
 
 USER coder
 

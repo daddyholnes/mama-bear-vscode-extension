@@ -1,0 +1,129 @@
+{
+  "contributes": {
+    "commands": [
+      // ... your existing commands ...
+      
+      // 🐻 AGENT ORCHESTRA COMMANDS
+      {
+        "command": "mamaBear.orchestratorPlan",
+        "title": "🐻 Orchestrator: Plan Project",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.speedDemonCode",
+        "title": "⚡ Speed Demon: Generate Code Instantly",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.deepThinkerAnalyze",
+        "title": "🧠 Deep Thinker: Architectural Analysis",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.codeSurgeonReview",
+        "title": "⚕️ Code Surgeon: Expert Review",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.codeSurgeonFix",
+        "title": "⚕️ Code Surgeon: Fix Selected Code",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.creativeGeniusDesign",
+        "title": "🎨 Creative Genius: Design Solution",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.dataWizardAnalyze",
+        "title": "🧙‍♂️ Data Wizard: Analyze Project",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.integrationMasterConnect",
+        "title": "🔗 Integration Master: System Integration",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.agentDashboard",
+        "title": "📊 Agent Performance Dashboard",
+        "category": "Mama Bear Orchestra"
+      },
+      {
+        "command": "mamaBear.smartRoute",
+        "title": "🚀 Smart Route: AI Auto-Select Agent",
+        "category": "Mama Bear Orchestra"
+      }
+    ],
+    
+    "keybindings": [
+      // ... your existing keybindings ...
+      
+      // Agent Orchestra Shortcuts
+      {
+        "command": "mamaBear.smartRoute",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r"
+      },
+      {
+        "command": "mamaBear.speedDemonCode",
+        "key": "ctrl+shift+q",
+        "mac": "cmd+shift+q"
+      },
+      {
+        "command": "mamaBear.codeSurgeonFix",
+        "key": "ctrl+shift+h",
+        "mac": "cmd+shift+h",
+        "when": "editorHasSelection"
+      },
+      {
+        "command": "mamaBear.agentDashboard",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d"
+      }
+    ],
+    
+    "menus": {
+      "editor/context": [
+        // ... your existing context menu items ...
+        
+        // Agent Orchestra Context Menu
+        {
+          "submenu": "mamaBearOrchestra",
+          "when": "editorTextFocus",
+          "group": "mamaBear"
+        }
+      ],
+      "mamaBearOrchestra": [
+        {
+          "command": "mamaBear.speedDemonCode",
+          "when": "editorTextFocus",
+          "group": "1_generate"
+        },
+        {
+          "command": "mamaBear.codeSurgeonReview",
+          "when": "editorTextFocus",
+          "group": "2_review"
+        },
+        {
+          "command": "mamaBear.codeSurgeonFix",
+          "when": "editorHasSelection",
+          "group": "2_review"
+        },
+        {
+          "command": "mamaBear.deepThinkerAnalyze",
+          "when": "editorHasSelection",
+          "group": "3_analyze"
+        }
+      ]
+    },
+    
+    "submenus": [
+      {
+        "id": "mamaBearOrchestra",
+        "label": "🐻 Mama Bear Orchestra",
+        "icon": "$(symbol-class)"
+      }
+    ]
+  }
+}
