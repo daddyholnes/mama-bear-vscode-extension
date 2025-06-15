@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mama Bear AI Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: var(--vscode-editor-background, #1e1e1e);
+            color: var(--vscode-editor-foreground, #d4d4d4);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Clean Chat Area - Main Focus */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--vscode-editor-background, #1e1e1e);
+            position: relative;
+        }
+
+        /* Top Header Bar with Inlaid Controls */
+        .top-header {
+            display: flex;
+            align-items: center;
+            padding: 8px 20px;
+            background: var(--vscode-titleBar-activeBackground, #3c3c3c);
+            border-bottom: 1px solid var(--vscode-panel-border, #2d2d30);
+            position: relative;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Inlaid Header Icons */
+        .header-icon {
+            width: 28px;
+            height: 28px;
+            background: none;
+            border: none;
+            color: var(--vscode-foreground, #cccccc);
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .header-icon:hover {
+            background: var(--vscode-toolbar-hoverBackground, rgba(255,255,255,0.05));
+            transform: translateY(-1px);
+        }
+
+        /* Mode Toggles */
+        .mode-toggles {
+            display: flex;
+            gap: 12px;
+        }
+
+        .mode-toggle {
+            padding: 4px 12px;
+            background: var(--vscode-button-secondaryBackground, rgba(255,255,255,0.05));
+            border: none;
+            border-radius: 12px;
+            color: var(--vscode-foreground, #cccccc);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .mode-toggle.active {
+            background: var(--vscode-button-background, #0e639c);
+            color: white;
+            box-shadow: 0 2px 8px rgba(14, 99, 156, 0.3);
+        }
+
+        /* Model Selector */
+        .model-selector {
+            background: var(--vscode-dropdown-background, #3c3c3c);
+            border: 1px solid var(--vscode-dropdown-border, #3c3c3c);
+            border-radius: 8px;
+            padding: 6px 12px;
+            color: var(--vscode-dropdown-foreground, #cccccc);
+            font-size: 11px;
+            cursor: pointer;
+            min-width: 120px;
+        }
+
+        /* Chat Messages Area */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .message.assistant .message-avatar {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+        }
+
+        .message-content {
+            background: var(--vscode-chat-requestBackground, #2d2d30);
+            border-radius: 16px 16px 16px 4px;
+            padding: 16px 20px;
+            max-width: 80%;
+            position: relative;
+        }
+
+        .message.user .message-content {
+            background: var(--vscode-chat-slashCommandBackground, #553c9a);
+            border-radius: 16px 16px 4px 16px;
+        }
+
+        .message-meta {
+            font-size: 11px;
+            color: var(--vscode-descriptionForeground, #969696);
+            margin-top: 8px;
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Enhanced Chat Input with Inlaid Border Controls */
+        .chat-input-container {
+            padding: 20px 24px;
+            background: var(--vscode-input-background, #3c3c3c);
+            border-top: 1px solid var(--vscode-panel-border, #2d2d30);
+        }
+
+        .input-wrapper {
+            position: relative;
+            background: var(--vscode-editor-background, #1e1e1e);
+            border-radius: 24px;
+            border: 3px solid var(--vscode-input-border, #3c3c3c);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            min-height: 48px;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Left Border Controls */
+        .left-controls {
+            display: flex;
+            align-items: center;
+            padding: 0 4px 0 8px;
+            gap: 4px;
+        }
+
+        /* Right Border Controls */
+        .right-controls {
+            display: flex;
+            align-items: center;
+            padding: 0 8px 0 4px;
+            gap: 4px;
+        }
+
+        /* Inlaid Border Buttons */
+        .border-btn {
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            color: var(--vscode-foreground, #aaa);
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+
+        .border-btn:hover {
+            background: var(--vscode-toolbar-hoverBackground, rgba(255,255,255,0.05));
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .border-btn.recording {
+            color: #ef4444;
+            opacity: 1;
+            animation: pulse 1s infinite;
+        }
+
+        .border-btn.send {
+            background: #6366f1;
+            color: white;
+            opacity: 1;
+        }
+
+        .border-btn.send:hover {
+            background: #5855eb;
+        }
+
+        .border-btn.send:disabled {
+            background: #374151;
+            cursor: not-allowed;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Main Text Input */
+        .main-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--vscode-input-foreground, #cccccc);
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            min-height: 32px;
+            max-height: 120px;
+            line-height: 1.5;
+            padding: 8px 12px;
+        }
+
+        .main-input::placeholder {
+            color: var(--vscode-input-placeholderForeground, #888);
+        }
+
+        /* Popup Menus */
+        .popup-menu {
+            position: absolute;
+            background: var(--vscode-menu-background, #3c3c3c);
+            border: 1px solid var(--vscode-menu-border, #454545);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(20px);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .popup-menu.show {
+            display: block;
+            animation: popupIn 0.2s ease;
+        }
+
+        @keyframes popupIn {
+            from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Chat History Popup */
+        .chat-history-popup {
+            top: 100%;
+            right: 0;
+            width: 300px;
+            margin-top: 8px;
+        }
+
+        .history-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--vscode-menu-separatorBackground, #454545);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .history-item:hover {
+            background: var(--vscode-menu-selectionBackground, #094771);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-title {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .history-preview {
+            font-size: 11px;
+            color: var(--vscode-descriptionForeground, #969696);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* MCP Tools Popup */
+        .mcp-tools-popup {
+            top: 100%;
+            left: 0;
+            width: 280px;
+            margin-top: 8px;
+        }
+
+        .mcp-section {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--vscode-menu-separatorBackground, #454545);
+        }
+
+        .mcp-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--vscode-descriptionForeground, #969696);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .mcp-tool {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .mcp-tool:hover {
+            background: var(--vscode-menu-selectionBackground, #094771);
+        }
+
+        .tool-icon {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .tool-info {
+            flex: 1;
+        }
+
+        .tool-name {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tool-status {
+            font-size: 10px;
+            color: var(--vscode-descriptionForeground, #969696);
+        }
+
+        .tool-toggle {
+            width: 20px;
+            height: 12px;
+            background: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            position: relative;
+        }
+
+        .tool-toggle.active {
+            background: #10b981;
+        }
+
+        .tool-toggle::after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-toggle.active::after {
+            transform: translateX(8px);
+        }
+
+        /* Context Files Popup */
+        .context-popup {
+            bottom: 100%;
+            left: 0;
+            width: 320px;
+            margin-bottom: 8px;
+        }
+
+        .context-search {
+            padding: 12px;
+            border-bottom: 1px solid var(--vscode-menu-separatorBackground, #454545);
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--vscode-input-background, #2d2d30);
+            border: 1px solid var(--vscode-input-border, #3c3c3c);
+            border-radius: 6px;
+            padding: 6px 8px;
+            color: var(--vscode-input-foreground, #cccccc);
+            font-size: 12px;
+        }
+
+        .file-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .file-item:hover {
+            background: var(--vscode-menu-selectionBackground, #094771);
+        }
+
+        .file-icon {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .file-path {
+            font-size: 10px;
+            color: var(--vscode-descriptionForeground, #969696);
+        }
+
+        /* Emoji Picker Popup */
+        .emoji-popup {
+            bottom: 100%;
+            right: 80px;
+            width: 280px;
+            margin-bottom: 8px;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 4px;
+            padding: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .emoji-btn {
+            width: 28px;
+            height: 28px;
+            background: none;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .emoji-btn:hover {
+            background: var(--vscode-menu-selectionBackground, #094771);
+        }
+
+        /* Context Files Display */
+        .context-files {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .context-file-tag {
+            background: var(--vscode-badge-background, #007acc);
+            color: var(--vscode-badge-foreground, white);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .remove-file {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .remove-file:hover {
+            opacity: 1;
+        }
+
+        /* Collapsible Sidebar for Plugins */
+        .plugin-sidebar {
+            width: 0;
+            background: var(--vscode-sideBar-background, #252526);
+            transition: width 0.3s ease;
+            overflow: hidden;
+            border-left: 1px solid var(--vscode-panel-border, #2d2d30);
+        }
+
+        .plugin-sidebar.open {
+            width: 300px;
+        }
+
+        .plugin-content {
+            width: 300px;
+            padding: 16px;
+        }
+
+        .plugin-search {
+            width: 100%;
+            background: var(--vscode-input-background, #3c3c3c);
+            border: 1px solid var(--vscode-input-border, #3c3c3c);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--vscode-input-foreground, #cccccc);
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .plugin-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .plugin-item {
+            background: var(--vscode-list-inactiveSelectionBackground, #37373d);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .plugin-item:hover {
+            background: var(--vscode-list-hoverBackground, #2a2d2e);
+        }
+
+        .plugin-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .plugin-desc {
+            font-size: 11px;
+            color: var(--vscode-descriptionForeground, #969696);
+        }
+
+        /* Status Pills */
+        .status-pills {
+            display: flex;
+            gap: 6px;
+            margin-left: 12px;
+        }
+
+        .status-pill {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .pill-memory {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .pill-mcp {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-center {
+                display: none;
+            }
+            
+            .plugin-sidebar.open {
+                width: 250px;
+            }
+        }
+
+        /* Tooltips */
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 1000;
+            margin-bottom: 4px;
+        }
+
+        [data-tooltip]:hover::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Clean Chat Area -->
+        <div class="chat-area">
+            <!-- Top Header with Inlaid Controls -->
+            <div class="top-header">
+                <div class="header-left">
+                    <!-- New Chat -->
+                    <button class="header-icon" data-tooltip="New Chat" onclick="newChat()">➕</button>
+                    
+                    <!-- Chat History -->
+                    <div style="position: relative;">
+                        <button class="header-icon" data-tooltip="Chat History" onclick="toggleChatHistory()">📜</button>
+                        <div class="popup-menu chat-history-popup" id="chatHistoryPopup">
+                            <div class="history-item">
+                                <div class="history-title">React Component Help</div>
+                                <div class="history-preview">Can you help me set up a new React component...</div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-title">MCP Integration</div>
+                                <div class="history-preview">Setting up Docker MCP servers for automation...</div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-title">Memory System</div>
+                                <div class="history-preview">Configuring MEM0 RAG system...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MCP Tools -->
+                    <div style="position: relative;">
+                        <button class="header-icon" data-tooltip="MCP Tools" onclick="toggleMcpTools()">🔨</button>
+                        <div class="popup-menu mcp-tools-popup" id="mcpToolsPopup">
+                            <div class="mcp-section">
+                                <div class="mcp-section-title">Active Tools</div>
+                                <div class="mcp-tool">
+                                    <div class="tool-icon">🐳</div>
+                                    <div class="tool-info">
+                                        <div class="tool-name">Docker MCP</div>
+                                        <div class="tool-status">Connected</div>
+                                    </div>
+                                    <div class="tool-toggle active" onclick="toggleTool(this)"></div>
+                                </div>
+                                <div class="mcp-tool">
+                                    <div class="tool-icon">🧠</div>
+                                    <div class="tool-info">
+                                        <div class="tool-name">Memory RAG</div>
+                                        <div class="tool-status">Active</div>
+                                    </div>
+                                    <div class="tool-toggle active" onclick="toggleTool(this)"></div>
+                                </div>
+                                <div class="mcp-tool">
+                                    <div class="tool-icon">🔍</div>
+                                    <div class="tool-info">
+                                        <div class="tool-name">Web Search</div>
+                                        <div class="tool-status">Ready</div>
+                                    </div>
+                                    <div class="tool-toggle" onclick="toggleTool(this)"></div>
+                                </div>
+                            </div>
+                            <div class="mcp-section">
+                                <div class="mcp-section-title">Docker Servers</div>
+                                <div class="mcp-tool">
+                                    <div class="tool-icon">🌐</div>
+                                    <div class="tool-info">
+                                        <div class="tool-name">browser-automation</div>
+                                        <div class="tool-status">:8001</div>
+                                    </div>
+                                    <div class="tool-toggle active" onclick="toggleTool(this)"></div>
+                                </div>
+                                <div class="mcp-tool">
+                                    <div class="tool-icon">📁</div>
+                                    <div class="tool-info">
+                                        <div class="tool-name">file-manager</div>
+                                        <div class="tool-status">:8002</div>
+                                    </div>
+                                    <div class="tool-toggle" onclick="toggleTool(this)"></div>
+                                </div>
+                            </div>
+                            <div style="padding: 12px; border-top: 1px solid var(--vscode-menu-separatorBackground, #454545);">
+                                <button style="width: 100%; background: #6366f1; color: white; border: none; border-radius: 6px; padding: 8px; cursor: pointer; font-size: 11px;" onclick="showMcpMarketplace()">🛍️ Browse MCP Marketplace</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plugin Search -->
+                    <button class="header-icon" data-tooltip="Plugin Search" onclick="togglePluginSidebar()">🔌</button>
+                </div>
+
+                <div class="header-center">
+                    <!-- Mode Toggles -->
+                    <div class="mode-toggles">
+                        <button class="mode-toggle" id="buildMode" onclick="toggleMode('build')">🔨 Build</button>
+                        <button class="mode-toggle" id="planMode" onclick="toggleMode('plan')">📋 Plan</button>
+                    </div>
+
+                    <!-- Model Selection -->
+                    <select class="model-selector" id="modelSelect">
+                        <option value="claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+                        <option value="claude-3-opus">Claude 3 Opus</option>
+                        <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash Exp</option>
+                        <option value="gemini-2.5-pro-exp">Gemini 2.5 Pro Exp</option>
+                        <option value="gpt-4o">GPT-4o</option>
+                        <option value="gpt-4o-mini">GPT-4o Mini</option>
+                        <option value="o1-preview">o1-preview</option>
+                        <option value="o1-mini">o1-mini</option>
+                        <option value="llama-3.3-70b">Llama 3.3 70B</option>
+                        <option value="llama-3.2-90b">Llama 3.2 90B</option>
+                        <option value="deepseek-r1">DeepSeek R1</option>
+                        <option value="qwen-2.5-72b">Qwen 2.5 72B</option>
+                        <option value="mixtral-8x7b">Mixtral 8x7B</option>
+                        <option value="codestral">Codestral</option>
+                        <option value="mem0-enhanced">MEM0 Enhanced</option>
+                    </select>
+
+                    <!-- Status Pills -->
+                    <div class="status-pills">
+                        <div class="status-pill pill-memory">MEM0</div>
+                        <div class="status-pill pill-mcp">MCP</div>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <!-- Background Terminal -->
+                    <button class="header-icon" data-tooltip="Background Terminal" onclick="openTerminal()">💻</button>
+                    
+                    <!-- Settings -->
+                    <button class="header-icon" data-tooltip="Settings" onclick="openSettings()">⚙️</button>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="message assistant">
+                    <div class="message-avatar">🐻</div>
+                    <div class="message-content">
+                        <div>Hello! I'm Mama Bear, your advanced AI copilot. I have access to your MEM0 RAG system, Docker MCP marketplace, and all my multimodal capabilities. How can I help you build something amazing today?</div>
+                        <div class="message-meta">
+                            <span>claude-3.5-sonnet</span>
+                            <span>247ms</span>
+                            <span>MEM0 Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Chat Input with Inlaid Border Controls -->
+            <div class="chat-input-container">
+                <!-- Context Files Display -->
+                <div class="context-files" id="contextFiles" style="display: none;">
+                    <!-- Context file tags will be added here -->
+                </div>
+
+                <div class="input-wrapper">
+                    <!-- Left Border Controls -->
+                    <div class="left-controls">
+                        <button class="border-btn" id="micBtn" data-tooltip="Voice Input" onclick="toggleVoice()">🎙️</button>
+                        
+                        <!-- Context/File Attachment -->
+                        <div style="position: relative;">
+                            <button class="border-btn" data-tooltip="Add Context" onclick="toggleContextMenu()">📎</button>
+                            <div class="popup-menu context-popup" id="contextPopup">
+                                <div class="context-search">
+                                    <input type="text" class="search-input" placeholder="Search files..." onkeyup="filterFiles(this.value)">
+                                </div>
+                                <div class="mcp-section">
+                                    <div class="mcp-section-title">Recent Files</div>
+                                    <div class="file-list" id="recentFiles">
+                                        <div class="file-item" onclick="addContextFile('App.tsx', '/src/App.tsx')">
+                                            <div class="file-icon">⚛️</div>
+                                            <div class="file-info">
+                                                <div class="file-name">App.tsx</div>
+                                                <div class="file-path">/src/App.tsx</div>
+                                            </div>
+                                        </div>
+                                        <div class="file-item" onclick="addContextFile('utils.ts', '/src/utils.ts')">
+                                            <div class="file-icon">🔧</div>
+                                            <div class="file-info">
+                                                <div class="file-name">utils.ts</div>
+                                                <div class="file-path">/src/utils.ts</div>
+                                            </div>
+                                        </div>
+                                        <div class="file-item" onclick="addContextFile('package.json', '/package.json')">
+                                            <div class="file-icon">📦</div>
+                                            <div class="file-info">
+                                                <div class="file-name">package.json</div>
+                                                <div class="file-path">/package.json</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Input -->
+                    <textarea class="main-input" id="mainInput" placeholder="Ask Mama Bear anything..." rows="1" oninput="autoResize(this)" onkeydown="handleKeydown(event)"></textarea>
+
+                    <!-- Right Border Controls -->
+                    <div class="right-controls">
+                        <!-- Emoji Picker -->
+                        <div style="position: relative;">
+                            <button class="border-btn" data-tooltip="Emoji" onclick="toggleEmojiPicker()">😊</button>
+                            <div class="popup-menu emoji-popup" id="emojiPopup">
+                                <div class="emoji-grid">
+                                    <button class="emoji-btn" onclick="addEmoji('😀')">😀</button>
+                                    <button class="emoji-btn" onclick="addEmoji('😍')">😍</button>
+                                    <button class="emoji-btn" onclick="addEmoji('🤔')">🤔</button>
+                                    <button class="emoji-btn" onclick="addEmoji('👍')">👍</button>
+                                    <button class="emoji-btn" onclick="addEmoji('💡')">💡</button>
+                                    <button class="emoji-btn" onclick="addEmoji('🚀')">🚀</button>
+                                    <button class="emoji-btn" onclick="addEmoji('💻')">💻</button>
+                                    <button class="emoji-btn" onclick="addEmoji('🔥')">🔥</button>
+                                    <button class="emoji-btn" onclick="addEmoji('✨')">✨</button>
+                                    <button class="emoji-btn" onclick="addEmoji('🎉')">🎉</button>
+                                    <button class="emoji-btn" onclick="addEmoji('📝')">📝</button>
+                                    <button class="emoji-btn" onclick="addEmoji('🐻')">🐻</button>
+                                    <button class="emoji-btn" onclick="addEmoji('⚡')">⚡</button>
+                                    <button class="emoji-btn" onclick="addEmoji('🔨')">🔨</button>
+                                    <button class="emoji-btn" onclick="addEmoji('🧠')">🧠</button>
+                                    <button class="emoji-btn" onclick="addEmoji('🎯')">🎯</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Send Button -->
+                        <button class="border-btn send" id="sendBtn" data-tooltip="Send Message" onclick="sendMessage()">→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collapsible Plugin Sidebar -->
+        <div class="plugin-sidebar" id="pluginSidebar">
+            <div class="plugin-content">
+                <h3 style="margin-bottom: 12px; font-size: 14px;">🔌 MCP Server Search</h3>
+                <input type="text" class="plugin-search" placeholder="Search MCP servers..." onkeyup="filterPlugins(this.value)">
+                
+                <div class="plugin-list">
+                    <div class="plugin-item">
+                        <div class="plugin-name">🌐 browser-automation</div>
+                        <div class="plugin-desc">Control browsers and automate web tasks</div>
+                    </div>
+                    <div class="plugin-item">
+                        <div class="plugin-name">📊 data-analyzer</div>
+                        <div class="plugin-desc">Analyze and process data files</div>
+                    </div>
+                    <div class="plugin-item">
+                        <div class="plugin-name">🔍 code-search</div>
+                        <div class="plugin-desc">Advanced code search and analysis</div>
+                    </div>
+                    <div class="plugin-item">
+                        <div class="plugin-name">🗄️ database-connector</div>
+                        <div class="plugin-desc">Connect to various databases</div>
+                    </div>
+                    <div class="plugin-item">
+                        <div class="plugin-name">🎨 image-processor</div>
+                        <div class="plugin-desc">Process and analyze images</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let contextFiles = [];
+        let isRecording = false;
+
+        // Toggle Functions
+        function toggleChatHistory() {
+            togglePopup('chatHistoryPopup');
+        }
+
+        function toggleMcpTools() {
+            togglePopup('mcpToolsPopup');
+        }
+
+        function toggleContextMenu() {
+            togglePopup('contextPopup');
+        }
+
+        function toggleEmojiPicker() {
+            togglePopup('emojiPopup');
+        }
+
+        function togglePluginSidebar() {
+            const sidebar = document.getElementById('pluginSidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        function togglePopup(popupId) {
+            // Close all other popups
+            document.querySelectorAll('.popup-menu').forEach(popup => {
+                if (popup.id !== popupId) {
+                    popup.classList.remove('show');
+                }
+            });
+            
+            // Toggle target popup
+            const popup = document.getElementById(popupId);
+            popup.classList.toggle('show');
+        }
+
+        // Close popups when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.popup-menu') && !e.target.closest('.header-icon') && !e.target.closest('.border-btn')) {
+                document.querySelectorAll('.popup-menu').forEach(popup => {
+                    popup.classList.remove('show');
+                });
+            }
+        });
+
+        // Mode Toggle
+        function toggleMode(mode) {
+            const modeBtn = document.getElementById(mode + 'Mode');
+            modeBtn.classList.toggle('active');
+        }
+
+        // Tool Toggle
+        function toggleTool(element) {
+            element.classList.toggle('active');
+        }
+
+        // Voice Input
+        function toggleVoice() {
+            const micBtn = document.getElementById('micBtn');
+            isRecording = !isRecording;
+            
+            if (isRecording) {
+                micBtn.classList.add('recording');
+                micBtn.innerHTML = '⏹️';
+                // Start recording logic here
+            } else {
+                micBtn.classList.remove('recording');
+                micBtn.innerHTML = '🎙️';
+                // Stop recording logic here
+            }
+        }
+
+        // Context Files
+        function addContextFile(fileName, filePath) {
+            if (!contextFiles.some(f => f.path === filePath)) {
+                contextFiles.push({ name: fileName, path: filePath });
+                updateContextDisplay();
+            }
+            togglePopup('contextPopup');
+        }
+
+        function removeContextFile(filePath) {
+            contextFiles = contextFiles.filter(f => f.path !== filePath);
+            updateContextDisplay();
+        }
+
+        function updateContextDisplay() {
+            const container = document.getElementById('contextFiles');
+            if (contextFiles.length > 0) {
+                container.style.display = 'flex';
+                container.innerHTML = contextFiles.map(file => `
+                    <div class="context-file-tag">
+                        ${file.name}
+                        <span class="remove-file" onclick="removeContextFile('${file.path}')">×</span>
+                    </div>
+                `).join('');
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        // Emoji
+        function addEmoji(emoji) {
+            const input = document.getElementById('mainInput');
+            const cursorPos = input.selectionStart;
+            const textBefore = input.value.substring(0, cursorPos);
+            const textAfter = input.value.substring(cursorPos);
+            input.value = textBefore + emoji + textAfter;
+            input.focus();
+            input.setSelectionRange(cursorPos + emoji.length, cursorPos + emoji.length);
+            togglePopup('emojiPopup');
+        }
+
+        // Input Handling
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        function handleKeydown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('mainInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage('user', message);
+            
+            // Clear input
+            input.value = '';
+            autoResize(input);
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "I'll help you with that! Let me analyze your project structure and create the perfect solution.",
+                    "Great question! I can see from your codebase that we should use this approach...",
+                    "I'm accessing my MEM0 memory system to recall our previous work on this. Here's what I found...",
+                    "Let me use my Docker MCP tools to set this up properly for you."
+                ];
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                addMessage('assistant', response);
+            }, 1000);
+        }
+
+        function addMessage(role, content) {
+            const container = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            const avatar = role === 'user' ? '👤' : '🐻';
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">
+                    <div>${content}</div>
+                    <div class="message-meta">
+                        <span>${role === 'assistant' ? 'claude-3.5-sonnet' : time}</span>
+                        ${role === 'assistant' ? '<span>234ms</span><span>MEM0 Enhanced</span>' : ''}
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Filter Functions
+        function filterFiles(query) {
+            // Implementation for filtering files
+            console.log('Filtering files:', query);
+        }
+
+        function filterPlugins(query) {
+            const plugins = document.querySelectorAll('.plugin-item');
+            plugins.forEach(plugin => {
+                const text = plugin.textContent.toLowerCase();
+                plugin.style.display = text.includes(query.toLowerCase()) ? 'block' : 'none';
+            });
+        }
+
+        // Utility Functions
+        function newChat() {
+            document.getElementById('chatMessages').innerHTML = '';
+            contextFiles = [];
+            updateContextDisplay();
+            addMessage('assistant', 'New chat started! How can I help you today?');
+        }
+
+        function openTerminal() {
+            // Open background terminal
+            console.log('Opening background terminal...');
+        }
+
+        function openSettings() {
+            // Open settings panel
+            console.log('Opening settings...');
+        }
+
+        function showMcpMarketplace() {
+            alert('🐳 Opening MCP Marketplace...\n\nBrowse and install Docker containers with MCP servers:\n- browser-automation\n- code-analyzer\n- file-manager\n- git-helper\n- database-connector\n\nClick any tool to install via Docker Desktop integration.');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('mainInput').focus();
+            setTimeout(() => {
+                addMessage('assistant', 'Your workspace is fully configured! MEM0 RAG active, Docker MCP connected, and all multimodal features ready. What would you like to build today?');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

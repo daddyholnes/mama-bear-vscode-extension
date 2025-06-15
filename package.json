@@ -8,11 +8,7 @@
     "vscode": "^1.74.0"
   },
   "categories": [
-    "AI",
-    "Chat",
-    "Other",
-    "Snippets",
-    "Education"
+    "Other"
   ],
   "keywords": [
     "ai",
@@ -27,6 +23,10 @@
     "mcp"
   ],
   "icon": "media/mama-bear-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/podplay-sanctuary/mama-bear-vscode-extension.git"
+  },
   "activationEvents": [
     "onStartupFinished"
   ],

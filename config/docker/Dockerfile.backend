@@ -1,0 +1,34 @@
+# Mama Bear Backend Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apk add --no-cache curl wget
+
+# Copy package files
+COPY package*.json ./
+COPY tsconfig.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy source code
+COPY src/ ./src/
+COPY config/ ./config/
+
+# Build TypeScript
+RUN npm run build 2>/dev/null || echo "No build script found, using source directly"
+
+# Create necessary directories
+RUN mkdir -p /app/logs /app/uploads /app/credentials
+
+# Expose port
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:5000/health || exit 1
+
+# Start the backend server
+CMD ["node", "src/mama_bear_vscode_extension.js"]

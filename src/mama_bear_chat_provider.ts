@@ -8,12 +8,14 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
     private _context: vscode.ExtensionContext;
     private _apiClient: MamaBearApiClient;
     private _conversationHistory: any[] = [];
-    private _currentModel: string = 'gemini-2.0-flash-exp';
+    private _currentModel: string = 'gemini-2.5-flash';
     private _availableModels: any = {};
+    private _modelRegistry: any = {};
 
     constructor(context: vscode.ExtensionContext, apiClient: MamaBearApiClient) {
         this._context = context;
         this._apiClient = apiClient;
+        this.loadModelRegistry();
         this.loadAvailableModels();
     }
 
@@ -86,11 +88,47 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
         });
     }
 
+    private async loadModelRegistry() {
+        try {
+            const modelRegistryPath = vscode.Uri.joinPath(this._context.extensionUri, 'config', 'models', 'mama-bear-models.json');
+            const registryData = await vscode.workspace.fs.readFile(modelRegistryPath);
+            this._modelRegistry = JSON.parse(registryData.toString());
+            
+            // Set default model from registry
+            if (this._modelRegistry.model_registry?.recommended_defaults?.general) {
+                this._currentModel = this._modelRegistry.model_registry.recommended_defaults.general;
+            }
+        } catch (error) {
+            console.error('Failed to load model registry:', error);
+            // Fallback to embedded model list
+            this._modelRegistry = this.getDefaultModelRegistry();
+        }
+    }
+
+    private getDefaultModelRegistry() {
+        return {
+            model_registry: {
+                models: {
+                    'gemini-2.5-flash': { name: 'Gemini 2.5 Flash', capabilities: ['fast', 'coding'] },
+                    'claude-3-5-sonnet': { name: 'Claude 3.5 Sonnet', capabilities: ['reasoning', 'code'] },
+                    'gemini-2.0-flash': { name: 'Gemini 2.0 Flash', capabilities: ['ultra_fast'] }
+                },
+                recommended_defaults: {
+                    general: 'gemini-2.5-flash',
+                    coding: 'claude-3-5-sonnet',
+                    fast: 'gemini-2.0-flash'
+                }
+            }
+        };
+    }
+
     private async loadAvailableModels() {
         try {
             this._availableModels = await this._apiClient.getAvailableModels();
         } catch (error) {
             console.error('Failed to load available models:', error);
+            // Use registry as fallback
+            this._availableModels = this._modelRegistry.model_registry?.models || {};
         }
     }
 
@@ -748,212 +786,199 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mama Bear AI Assistant</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        * {
             margin: 0;
-            padding: 8px;
-            background: var(--vscode-editor-background);
-            color: var(--vscode-editor-foreground);
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--vscode-editor-background, #1e1e1e);
+            color: var(--vscode-editor-foreground, #d4d4d4);
             height: 100vh;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
         .header {
+            padding: 12px 16px;
+            background: var(--vscode-titleBar-activeBackground, #3c3c3c);
+            border-bottom: 1px solid var(--vscode-panel-border, #2d2d30);
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--vscode-panel-border);
-            margin-bottom: 8px;
+            gap: 12px;
         }
 
         .title {
-            font-weight: bold;
-            color: var(--vscode-foreground);
+            font-weight: 600;
+            font-size: 14px;
         }
 
         .model-selector {
-            font-size: 11px;
-            padding: 2px 6px;
-            background: var(--vscode-button-background);
-            color: var(--vscode-button-foreground);
-            border: none;
-            border-radius: 3px;
+            background: var(--vscode-dropdown-background, #3c3c3c);
+            border: 1px solid var(--vscode-dropdown-border, #454545);
+            border-radius: 4px;
+            padding: 4px 8px;
+            color: var(--vscode-dropdown-foreground, #cccccc);
+            font-size: 12px;
             cursor: pointer;
-        }
-
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
         }
 
         .messages {
             flex: 1;
             overflow-y: auto;
-            padding: 4px 0;
-            scroll-behavior: smooth;
+            padding: 16px;
         }
 
         .message {
-            margin-bottom: 12px;
-            padding: 8px;
-            border-radius: 6px;
-            word-wrap: break-word;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            max-width: 85%;
         }
 
         .message.user {
-            background: var(--vscode-inputValidation-infoBackground);
-            border-left: 3px solid var(--vscode-inputValidation-infoBorder);
+            background: var(--vscode-inputOption-activeBorder, #0e639c);
+            color: white;
+            margin-left: auto;
         }
 
         .message.assistant {
-            background: var(--vscode-textCodeBlock-background);
-            border-left: 3px solid var(--vscode-focusBorder);
+            background: var(--vscode-input-background, #3c3c3c);
+            border: 1px solid var(--vscode-input-border, #454545);
         }
 
         .message.system {
-            background: var(--vscode-inputValidation-warningBackground);
-            border-left: 3px solid var(--vscode-inputValidation-warningBorder);
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .message.express {
-            border-left: 3px solid #FFD700;
-            background: var(--vscode-textCodeBlock-background);
-        }
-
-        .message.agentic {
-            border-left: 3px solid #FF6B6B;
-            background: var(--vscode-textCodeBlock-background);
+            background: var(--vscode-editor-selectionBackground, rgba(255,255,255,0.1));
+            font-style: italic;
+            text-align: center;
+            max-width: 100%;
         }
 
         .message-meta {
-            font-size: 10px;
-            opacity: 0.7;
-            margin-top: 4px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .input-container {
-            padding: 8px 0;
-            border-top: 1px solid var(--vscode-panel-border);
-        }
-
-        .input-row {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 4px;
-        }
-
-        .message-input {
-            flex: 1;
-            padding: 8px;
-            background: var(--vscode-input-background);
-            color: var(--vscode-input-foreground);
-            border: 1px solid var(--vscode-input-border);
-            border-radius: 3px;
-            resize: vertical;
-            min-height: 20px;
-            max-height: 100px;
-            font-family: inherit;
-        }
-
-        .send-button, .action-button {
-            padding: 8px 12px;
-            background: var(--vscode-button-background);
-            color: var(--vscode-button-foreground);
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-
-        .action-button {
-            padding: 4px 8px;
             font-size: 11px;
+            opacity: 0.7;
+            margin-top: 8px;
         }
 
         .typing-indicator {
-            display: none;
-            font-size: 12px;
+            padding: 8px 16px;
+            font-style: italic;
             opacity: 0.7;
-            padding: 4px 8px;
+            display: none;
         }
 
         .typing-indicator.active {
             display: block;
         }
 
-        .status-indicator {
+        .input-container {
+            padding: 16px;
+            border-top: 1px solid var(--vscode-panel-border, #2d2d30);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .message-input {
+            flex: 1;
+            background: var(--vscode-input-background, #3c3c3c);
+            border: 1px solid var(--vscode-input-border, #454545);
+            border-radius: 4px;
+            padding: 8px 12px;
+            color: var(--vscode-input-foreground, #cccccc);
+            font-size: 13px;
+            resize: vertical;
+            min-height: 36px;
+            max-height: 120px;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: var(--vscode-focusBorder, #0e639c);
+        }
+
+        .send-button {
+            background: var(--vscode-button-background, #0e639c);
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            color: var(--vscode-button-foreground, white);
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .send-button:hover {
+            background: var(--vscode-button-hoverBackground, #1177bb);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            background: var(--vscode-button-secondaryBackground, rgba(255,255,255,0.1));
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            color: var(--vscode-button-secondaryForeground, #cccccc);
+            cursor: pointer;
             font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 3px;
-            margin: 2px;
-            display: none;
+            transition: background 0.2s;
         }
 
-        .status-indicator.active {
-            display: inline-block;
+        .action-button:hover {
+            background: var(--vscode-button-secondaryHoverBackground, rgba(255,255,255,0.2));
         }
 
-        .status-indicator.express {
-            background: #FFD700;
-            color: #000;
-        }
-
-        .status-indicator.agentic {
-            background: #FF6B6B;
-            color: #fff;
-        }
-
-        .status-indicator.web-search {
-            background: #4CAF50;
-            color: #fff;
-        }
-
-        code {
-            background: var(--vscode-textCodeBlock-background);
-            padding: 1px 4px;
-            border-radius: 2px;
-            font-family: var(--vscode-editor-font-family);
+        .action-button.active {
+            background: var(--vscode-button-background, #0e639c);
+            color: var(--vscode-button-foreground, white);
         }
 
         pre {
-            background: var(--vscode-textCodeBlock-background);
+            background: var(--vscode-textCodeBlock-background, #2d2d30);
             padding: 8px;
             border-radius: 4px;
             overflow-x: auto;
-            font-family: var(--vscode-editor-font-family);
+            margin: 8px 0;
+        }
+
+        code {
+            background: var(--vscode-textCodeBlock-background, #2d2d30);
+            padding: 2px 4px;
+            border-radius: 2px;
+            font-family: var(--vscode-editor-font-family, monospace);
         }
 
         .autonomous-actions {
-            margin-top: 8px;
-            padding: 8px;
-            background: var(--vscode-inputValidation-warningBackground);
-            border-radius: 4px;
-            font-size: 12px;
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 6px;
+            border-left: 3px solid #8b5cf6;
         }
 
         .autonomous-actions h4 {
-            margin: 0 0 4px 0;
+            color: #8b5cf6;
+            margin-bottom: 8px;
             font-size: 12px;
         }
 
         .autonomous-actions ul {
-            margin: 0;
-            padding-left: 16px;
+            margin-left: 16px;
+        }
+
+        .autonomous-actions li {
+            margin-bottom: 4px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -965,20 +990,14 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
         </select>
     </div>
 
-    <div class="status-indicator express" id="expressIndicator">⚡ Express Mode</div>
-    <div class="status-indicator agentic" id="agenticIndicator">🤖 Agentic Mode</div>
-    <div class="status-indicator web-search" id="webSearchIndicator">🔍 Web Search</div>
-
-    <div class="chat-container">
-        <div class="messages" id="messages">
-            <div class="message system">
-                🐻 Hi! I'm Mama Bear, your AI assistant. I have access to 15+ AI models, my own RAG system, web search, and agentic capabilities. How can I help you today?
-            </div>
+    <div class="messages" id="messages">
+        <div class="message system">
+            🐻 Hi! I'm Mama Bear, your AI assistant with access to 20+ models, multimodal support, and autonomous capabilities. How can I help you today?
         </div>
+    </div>
 
-        <div class="typing-indicator" id="typingIndicator">
-            🐻 Mama Bear is thinking...
-        </div>
+    <div class="typing-indicator" id="typingIndicator">
+        🐻 Mama Bear is thinking...
     </div>
 
     <div class="input-container">
@@ -1000,7 +1019,7 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
 
     <script>
         const vscode = acquireVsCodeApi();
-        let currentModel = 'gemini-2.0-flash-exp';
+        let currentModel = 'gemini-2.5-flash';
         let availableModels = {};
 
         // DOM elements
@@ -1010,11 +1029,6 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
         const modelSelector = document.getElementById('modelSelector');
         const typingIndicator = document.getElementById('typingIndicator');
 
-        // Status indicators
-        const expressIndicator = document.getElementById('expressIndicator');
-        const agenticIndicator = document.getElementById('agenticIndicator');
-        const webSearchIndicator = document.getElementById('webSearchIndicator');
-
         // Event listeners
         sendButton.addEventListener('click', sendMessage);
         messageInput.addEventListener('keydown', (e) => {
@@ -1022,6 +1036,11 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
                 e.preventDefault();
                 sendMessage();
             }
+        });
+
+        messageInput.addEventListener('input', () => {
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
         });
 
         modelSelector.addEventListener('change', (e) => {
@@ -1042,6 +1061,7 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
                     message: message
                 });
                 messageInput.value = '';
+                messageInput.style.height = 'auto';
             }
         });
 
@@ -1052,6 +1072,7 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
                 task: task
             });
             messageInput.value = '';
+            messageInput.style.height = 'auto';
         });
 
         document.getElementById('analyzeBtn').addEventListener('click', () => {
@@ -1066,6 +1087,7 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
                     query: query
                 });
                 messageInput.value = '';
+                messageInput.style.height = 'auto';
             }
         });
 
@@ -1092,6 +1114,7 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
             });
 
             messageInput.value = '';
+            messageInput.style.height = 'auto';
         }
 
         function addMessage(message) {
@@ -1101,13 +1124,24 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
             if (message.isExpress) messageDiv.classList.add('express');
             if (message.isAgentic) messageDiv.classList.add('agentic');
 
+            const time = new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            let metaInfo = '';
+            if (message.role === 'assistant') {
+                metaInfo = \`
+                    <div class="message-meta">
+                        <span>\${message.model || currentModel}</span>
+                        \${message.processingTime ? \`<span>\${message.processingTime}ms</span>\` : ''}
+                        <span>\${time}</span>
+                    </div>
+                \`;
+            } else if (message.role === 'user') {
+                metaInfo = \`<div class="message-meta"><span>\${time}</span></div>\`;
+            }
+
             messageDiv.innerHTML = \`
                 <div>\${formatMessage(message.content)}</div>
-                <div class="message-meta">
-                    <span>\${message.model || 'Unknown'}</span>
-                    <span>\${new Date(message.timestamp).toLocaleTimeString()}</span>
-                    \${message.processingTime ? \`<span>\${message.processingTime}ms</span>\` : ''}
-                </div>
+                \${metaInfo}
             \`;
 
             if (message.autonomousActions && message.autonomousActions.length > 0) {
@@ -1138,24 +1172,31 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
 
         function updateModelSelector(models) {
             modelSelector.innerHTML = '';
+            
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select Model...';
+            modelSelector.appendChild(defaultOption);
 
-            Object.keys(models).forEach(category => {
-                if (typeof models[category] === 'object' && models[category] !== null) {
-                    Object.keys(models[category]).forEach(subcategory => {
-                        if (Array.isArray(models[category][subcategory])) {
-                            models[category][subcategory].forEach(model => {
-                                const option = document.createElement('option');
-                                option.value = model.id;
-                                option.textContent = \`\${model.name} (\${model.provider})\`;
-                                if (model.id === currentModel) {
-                                    option.selected = true;
-                                }
-                                modelSelector.appendChild(option);
-                            });
-                        }
-                    });
+            // Add models from registry
+            Object.keys(models).forEach(modelId => {
+                const model = models[modelId];
+                const option = document.createElement('option');
+                option.value = modelId;
+                option.textContent = \`\${model.name || modelId}\`;
+                if (modelId === currentModel) {
+                    option.selected = true;
                 }
+                modelSelector.appendChild(option);
             });
+        }
+
+        function setActiveButton(buttonId, active) {
+            const button = document.getElementById(buttonId);
+            if (button) {
+                button.classList.toggle('active', active);
+            }
         }
 
         // Message handlers
@@ -1184,15 +1225,15 @@ export class MamaBearChatProvider implements vscode.WebviewViewProvider {
                     break;
 
                 case 'expressMode':
-                    expressIndicator.classList.toggle('active', message.active);
+                    setActiveButton('expressBtn', message.active);
                     break;
 
                 case 'agenticTakeover':
-                    agenticIndicator.classList.toggle('active', message.active);
+                    setActiveButton('agenticBtn', message.active);
                     break;
 
                 case 'webSearch':
-                    webSearchIndicator.classList.toggle('active', message.active);
+                    setActiveButton('searchBtn', message.active);
                     break;
 
                 case 'modelChanged':

@@ -1,0 +1,866 @@
+{
+  "model_registry": {
+    "updated": "2025-01-27T00:00:00Z",
+    "description": "Mama Bear AI - Best 20 Models for VS Code Extension",
+    "total_models": 20,
+    "selection_criteria": [
+      "Performance excellence",
+      "Unique capabilities",
+      "Cost effectiveness",
+      "Response speed",
+      "Context window size",
+      "Multimodal support",
+      "Specialized strengths"
+    ],
+    "models": {
+      "gemini-2.5-pro-preview": {
+        "name": "Gemini 2.5 Pro Preview",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.5-pro-preview-06-05",
+        "rank": 1,
+        "capabilities": [
+          "advanced_reasoning",
+          "complex_analysis",
+          "coding",
+          "multimodal",
+          "thinking"
+        ],
+        "context_window": 2000000,
+        "max_output": 8192,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Complex problem solving",
+          "Large document analysis",
+          "Advanced coding tasks"
+        ],
+        "status": "available"
+      },
+      "claude-sonnet-4": {
+        "name": "Claude Sonnet 4",
+        "provider": "Anthropic",
+        "endpoint_id": "claude-sonnet-4-20250514",
+        "rank": 2,
+        "capabilities": [
+          "chat",
+          "reasoning",
+          "code",
+          "analysis",
+          "computer_use",
+          "function_calling",
+          "vision"
+        ],
+        "context_window": 200000,
+        "max_output": 64000,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Code reviews",
+          "Tool usage",
+          "Complex analysis"
+        ],
+        "status": "available"
+      },
+      "claude-opus-4": {
+        "name": "Claude Opus 4",
+        "provider": "Anthropic",
+        "endpoint_id": "claude-opus-4-20250514",
+        "rank": 3,
+        "capabilities": [
+          "chat",
+          "advanced_reasoning",
+          "code",
+          "analysis",
+          "computer_use",
+          "function_calling",
+          "vision",
+          "thinking"
+        ],
+        "context_window": 200000,
+        "max_output": 32000,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Most complex tasks",
+          "Deep reasoning",
+          "Advanced coding"
+        ],
+        "status": "available"
+      },
+      "gemini-2.5-flash": {
+        "name": "Gemini 2.5 Flash",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.5-flash-preview-05-20",
+        "rank": 4,
+        "capabilities": [
+          "fast",
+          "reasoning",
+          "coding",
+          "batch_processing",
+          "thinking"
+        ],
+        "context_window": 1000000,
+        "max_output": 8192,
+        "cost_tier": "medium",
+        "use_cases": [
+          "Fast coding assistance",
+          "Batch processing",
+          "General purpose"
+        ],
+        "status": "available"
+      },
+      "gemini-2.5-flash-native-audio": {
+        "name": "Gemini 2.5 Flash Native Audio",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.5-flash-exp-native-audio-thinking-dialog",
+        "rank": 5,
+        "capabilities": [
+          "native_audio",
+          "bidirectional_voice",
+          "real_time",
+          "thinking",
+          "conversational"
+        ],
+        "context_window": 1000000,
+        "max_output": 8192,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Voice conversations",
+          "Real-time assistance",
+          "Audio processing"
+        ],
+        "status": "experimental"
+      },
+      "gemini-2.0-flash-live": {
+        "name": "Gemini 2.0 Flash Live",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.0-flash-live-001",
+        "rank": 6,
+        "capabilities": [
+          "native_audio",
+          "native_video",
+          "screen_share",
+          "bidirectional_voice",
+          "real_time",
+          "vision"
+        ],
+        "context_window": 1000000,
+        "max_output": 8192,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Live video calls",
+          "Screen sharing assistance",
+          "Real-time collaboration"
+        ],
+        "status": "experimental"
+      },
+      "claude-3-7-sonnet": {
+        "name": "Claude 3.7 Sonnet",
+        "provider": "Anthropic",
+        "endpoint_id": "claude-3-7-sonnet-20250219",
+        "rank": 7,
+        "capabilities": [
+          "chat",
+          "reasoning",
+          "code",
+          "analysis",
+          "thinking",
+          "vision"
+        ],
+        "context_window": 200000,
+        "max_output": 64000,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Extended thinking",
+          "Complex coding",
+          "Analysis tasks"
+        ],
+        "status": "available"
+      },
+      "gpt-4o": {
+        "name": "GPT-4o",
+        "provider": "OpenAI",
+        "endpoint_id": "gpt-4o",
+        "rank": 8,
+        "capabilities": [
+          "chat",
+          "reasoning",
+          "code",
+          "multimodal",
+          "function_calling"
+        ],
+        "context_window": 128000,
+        "max_output": 16384,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Multimodal tasks",
+          "Function calling",
+          "General purpose"
+        ],
+        "status": "available"
+      },
+      "gpt-4o-mini": {
+        "name": "GPT-4o Mini",
+        "provider": "OpenAI",
+        "endpoint_id": "gpt-4o-mini",
+        "rank": 9,
+        "capabilities": [
+          "fast",
+          "chat",
+          "code",
+          "multimodal"
+        ],
+        "context_window": 128000,
+        "max_output": 16384,
+        "cost_tier": "medium",
+        "use_cases": [
+          "Fast responses",
+          "Cost-effective tasks",
+          "Light multimodal"
+        ],
+        "status": "available"
+      },
+      "o1-preview": {
+        "name": "OpenAI o1 Preview",
+        "provider": "OpenAI",
+        "endpoint_id": "o1-preview",
+        "rank": 10,
+        "capabilities": [
+          "advanced_reasoning",
+          "thinking",
+          "complex_analysis",
+          "coding"
+        ],
+        "context_window": 128000,
+        "max_output": 32768,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Complex reasoning",
+          "Mathematical problems",
+          "Deep analysis"
+        ],
+        "status": "available"
+      },
+      "o1-mini": {
+        "name": "OpenAI o1 Mini",
+        "provider": "OpenAI",
+        "endpoint_id": "o1-mini",
+        "rank": 11,
+        "capabilities": [
+          "reasoning",
+          "thinking",
+          "coding",
+          "fast"
+        ],
+        "context_window": 128000,
+        "max_output": 65536,
+        "cost_tier": "medium",
+        "use_cases": [
+          "Coding tasks",
+          "Quick reasoning",
+          "Problem solving"
+        ],
+        "status": "available"
+      },
+      "gpt-4-turbo": {
+        "name": "GPT-4 Turbo",
+        "provider": "OpenAI",
+        "endpoint_id": "gpt-4-turbo",
+        "rank": 12,
+        "capabilities": [
+          "chat",
+          "reasoning",
+          "code",
+          "multimodal",
+          "function_calling"
+        ],
+        "context_window": 128000,
+        "max_output": 4096,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Large context tasks",
+          "Complex analysis",
+          "Multimodal reasoning"
+        ],
+        "status": "available"
+      },
+      "gemini-2.0-flash": {
+        "name": "Gemini 2.0 Flash",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.0-flash",
+        "rank": 13,
+        "capabilities": [
+          "ultra_fast",
+          "agentic",
+          "tool_use",
+          "multimodal",
+          "streaming"
+        ],
+        "context_window": 1000000,
+        "max_output": 8192,
+        "cost_tier": "medium",
+        "use_cases": [
+          "Agentic workflows",
+          "Tool usage",
+          "Real-time applications"
+        ],
+        "status": "available"
+      },
+      "gemini-1.5-pro": {
+        "name": "Gemini 1.5 Pro",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-1.5-pro",
+        "rank": 14,
+        "capabilities": [
+          "reasoning",
+          "coding",
+          "multimodal",
+          "long_context"
+        ],
+        "context_window": 2000000,
+        "max_output": 8192,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Long document analysis",
+          "Complex reasoning",
+          "Large codebases"
+        ],
+        "status": "available"
+      },
+      "claude-3-5-sonnet-v2": {
+        "name": "Claude 3.5 Sonnet v2",
+        "provider": "Anthropic",
+        "endpoint_id": "claude-3-5-sonnet-20241022",
+        "rank": 15,
+        "capabilities": [
+          "chat",
+          "reasoning",
+          "code",
+          "analysis",
+          "computer_use",
+          "vision"
+        ],
+        "context_window": 200000,
+        "max_output": 8192,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Computer use",
+          "Code analysis",
+          "Tool integration"
+        ],
+        "status": "available"
+      },
+      "claude-3-5-haiku": {
+        "name": "Claude 3.5 Haiku",
+        "provider": "Anthropic",
+        "endpoint_id": "claude-3-5-haiku-20241022",
+        "rank": 16,
+        "capabilities": [
+          "fast",
+          "chat",
+          "code",
+          "vision"
+        ],
+        "context_window": 200000,
+        "max_output": 8192,
+        "cost_tier": "medium",
+        "use_cases": [
+          "Fast responses",
+          "Quick coding",
+          "Real-time chat"
+        ],
+        "status": "available"
+      },
+      "gemini-1.5-flash": {
+        "name": "Gemini 1.5 Flash",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-1.5-flash",
+        "rank": 17,
+        "capabilities": [
+          "fast",
+          "multimodal",
+          "coding",
+          "batch_processing"
+        ],
+        "context_window": 1000000,
+        "max_output": 8192,
+        "cost_tier": "medium",
+        "use_cases": [
+          "Fast processing",
+          "Bulk operations",
+          "Quick responses"
+        ],
+        "status": "available"
+      },
+      "claude-3-opus": {
+        "name": "Claude 3 Opus",
+        "provider": "Anthropic",
+        "endpoint_id": "claude-3-opus-20240229",
+        "rank": 18,
+        "capabilities": [
+          "advanced_reasoning",
+          "complex_analysis",
+          "coding",
+          "vision"
+        ],
+        "context_window": 200000,
+        "max_output": 4096,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Complex tasks",
+          "Deep analysis",
+          "High-quality output"
+        ],
+        "status": "available"
+      },
+      "gemini-2.0-flash-lite": {
+        "name": "Gemini 2.0 Flash Lite",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.0-flash-lite",
+        "rank": 19,
+        "capabilities": [
+          "ultra_fast",
+          "cost_effective",
+          "basic_coding"
+        ],
+        "context_window": 1000000,
+        "max_output": 8192,
+        "cost_tier": "free",
+        "use_cases": [
+          "Quick queries",
+          "Basic assistance",
+          "High volume tasks"
+        ],
+        "status": "available"
+      },
+      "gemini-1.5-flash-8b": {
+        "name": "Gemini 1.5 Flash-8B",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-1.5-flash-8b",
+        "rank": 20,
+        "capabilities": [
+          "ultra_fast",
+          "cost_effective",
+          "basic_tasks"
+        ],
+        "context_window": 1000000,
+        "max_output": 8192,
+        "cost_tier": "free",
+        "use_cases": [
+          "Simple queries",
+          "Basic assistance",
+          "Volume processing"
+        ],
+        "status": "available"
+      }
+      "gpt-4o": {
+        "name": "GPT-4o",
+        "provider": "OpenAI via Vertex AI",
+        "endpoint_id": "gpt-4o",
+        "rank": 5,
+        "capabilities": [
+          "chat",
+          "completion",
+          "reasoning",
+          "code",
+          "multimodal"
+        ],
+        "context_window": 128000,
+        "max_output": 4096,
+        "proxy_model": "gemini-1.5-pro",
+        "cost_tier": "premium",
+        "use_cases": [
+          "Multimodal tasks",
+          "Code completion",
+          "General assistance"
+        ],
+        "status": "configured"
+      },
+      "claude-3-opus": {
+        "name": "Claude 3 Opus",
+        "provider": "Anthropic",
+        "endpoint_id": "claude-3-opus",
+        "rank": 6,
+        "capabilities": [
+          "chat",
+          "reasoning",
+          "analysis",
+          "creative_writing",
+          "research"
+        ],
+        "context_window": 200000,
+        "max_output": 4096,
+        "cost_tier": "enterprise",
+        "use_cases": [
+          "Research tasks",
+          "Creative writing",
+          "Deep analysis"
+        ],
+        "status": "available"
+      },
+      "gemini-2.0-flash": {
+        "name": "Gemini 2.0 Flash",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.0-flash",
+        "rank": 7,
+        "capabilities": [
+          "ultra_fast",
+          "real_time",
+          "live_collaboration"
+        ],
+        "context_window": 1048576,
+        "max_output": 8192,
+        "cost_tier": "low",
+        "use_cases": [
+          "Real-time assistance",
+          "Live collaboration",
+          "Quick responses"
+        ],
+        "status": "available"
+      },
+      "gemini-1.5-pro": {
+        "name": "Gemini 1.5 Pro",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-1.5-pro",
+        "rank": 8,
+        "capabilities": [
+          "reasoning",
+          "analysis",
+          "large_context",
+          "multimodal"
+        ],
+        "context_window": 2000000,
+        "max_output": 8192,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Large document processing",
+          "Multimodal analysis",
+          "Context-heavy tasks"
+        ],
+        "status": "available"
+      },
+      "gpt-4-turbo": {
+        "name": "GPT-4 Turbo",
+        "provider": "OpenAI via Vertex AI",
+        "endpoint_id": "gpt-4-turbo",
+        "rank": 9,
+        "capabilities": [
+          "chat",
+          "completion",
+          "reasoning",
+          "code",
+          "multimodal"
+        ],
+        "context_window": 128000,
+        "max_output": 4096,
+        "proxy_model": "gemini-1.5-pro",
+        "cost_tier": "premium",
+        "use_cases": [
+          "Multimodal tasks",
+          "Code generation",
+          "Reasoning tasks"
+        ],
+        "status": "configured"
+      },
+      "claude-4-opus": {
+        "name": "Claude 4 Opus (Vertex AI)",
+        "provider": "Anthropic via Vertex AI",
+        "endpoint_id": "claude-4-opus",
+        "rank": 10,
+        "capabilities": [
+          "advanced_coding",
+          "long_horizon_tasks",
+          "ai_agents",
+          "agentic_search"
+        ],
+        "context_window": 200000,
+        "max_output": 8192,
+        "cost_tier": "enterprise",
+        "use_cases": [
+          "Advanced coding",
+          "Agentic workflows",
+          "Long-horizon tasks"
+        ],
+        "status": "vertex_ai"
+      },
+      "gemini-2.5-flash-thinking": {
+        "name": "Gemini 2.5 Flash Thinking",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.5-flash-thinking",
+        "rank": 11,
+        "capabilities": [
+          "thinking",
+          "reasoning",
+          "complex_reasoning_backup"
+        ],
+        "context_window": 1048576,
+        "max_output": 65536,
+        "cost_tier": "medium",
+        "use_cases": [
+          "Backup reasoning",
+          "Complex analysis",
+          "Problem solving"
+        ],
+        "status": "available"
+      },
+      "claude-3.5-sonnet-v2": {
+        "name": "Claude 3.5 Sonnet v2 (Vertex AI)",
+        "provider": "Anthropic via Vertex AI",
+        "endpoint_id": "claude-3.5-sonnet-v2",
+        "rank": 12,
+        "capabilities": [
+          "tool_use",
+          "agentic_workflows",
+          "advanced_reasoning"
+        ],
+        "context_window": 200000,
+        "max_output": 8192,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Tool integration",
+          "Agentic workflows",
+          "Advanced reasoning"
+        ],
+        "status": "vertex_ai"
+      },
+      "conductor": {
+        "name": "Conductor (Orchestra)",
+        "provider": "Revolutionary AI Orchestra",
+        "endpoint_id": "conductor",
+        "rank": 13,
+        "capabilities": [
+          "task_routing",
+          "orchestration",
+          "master_conductor"
+        ],
+        "context_window": 1048576,
+        "max_output": 65536,
+        "specialty": "ultimate_task_router",
+        "cost_tier": "premium",
+        "use_cases": [
+          "Task orchestration",
+          "Multi-model routing",
+          "Complex workflows"
+        ],
+        "status": "orchestrated"
+      },
+      "gemini-2.0-flash-thinking": {
+        "name": "Gemini 2.0 Flash Thinking",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.0-flash-thinking",
+        "rank": 14,
+        "capabilities": [
+          "thinking",
+          "architecture_decisions",
+          "complex_debugging"
+        ],
+        "context_window": 1048576,
+        "max_output": 65536,
+        "cost_tier": "medium",
+        "use_cases": [
+          "Architecture planning",
+          "System debugging",
+          "Design decisions"
+        ],
+        "status": "available"
+      },
+      "gpt-4o-mini": {
+        "name": "GPT-4o Mini",
+        "provider": "OpenAI via Vertex AI",
+        "endpoint_id": "gpt-4o-mini",
+        "rank": 15,
+        "capabilities": [
+          "chat",
+          "completion",
+          "fast",
+          "code"
+        ],
+        "context_window": 128000,
+        "max_output": 4096,
+        "proxy_model": "gemini-1.5-flash",
+        "cost_tier": "medium",
+        "use_cases": [
+          "Quick coding tasks",
+          "Fast completion",
+          "Cost-effective assistance"
+        ],
+        "status": "configured"
+      },
+      "gemini-pro-vision": {
+        "name": "Gemini Pro Vision",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-pro-vision",
+        "rank": 16,
+        "capabilities": [
+          "vision",
+          "multimodal",
+          "image_analysis"
+        ],
+        "context_window": 12288,
+        "max_output": 4096,
+        "cost_tier": "premium",
+        "use_cases": [
+          "Image analysis",
+          "Visual content",
+          "Multimodal tasks"
+        ],
+        "status": "available"
+      },
+      "mama_bear_v3_agentic": {
+        "name": "Mama Bear V3 Agentic",
+        "provider": "Mama Bear Agentic Service",
+        "endpoint_id": "mama_bear_v3_agentic",
+        "rank": 17,
+        "capabilities": [
+          "agentic_ai",
+          "memory_operations",
+          "mem0_integration",
+          "superpowers"
+        ],
+        "context_window": 2000000,
+        "max_output": 8192,
+        "specialty": "agentic_intelligence",
+        "cost_tier": "premium",
+        "use_cases": [
+          "Persistent memory",
+          "Agentic workflows",
+          "Enhanced capabilities"
+        ],
+        "status": "agentic_service"
+      },
+      "gemini-2.0-flash-lite": {
+        "name": "Gemini 2.0 Flash Lite",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-2.0-flash-lite",
+        "rank": 18,
+        "capabilities": [
+          "speed",
+          "instant_responses",
+          "ui_interactions"
+        ],
+        "context_window": 1048576,
+        "max_output": 8192,
+        "cost_tier": "free",
+        "use_cases": [
+          "UI interactions",
+          "Instant responses",
+          "High-frequency tasks"
+        ],
+        "status": "available"
+      },
+      "claude-3.5-haiku": {
+        "name": "Claude 3.5 Haiku (Vertex AI)",
+        "provider": "Anthropic via Vertex AI",
+        "endpoint_id": "claude-3.5-haiku",
+        "rank": 19,
+        "capabilities": [
+          "speed",
+          "cost_effectiveness",
+          "real_time_responses"
+        ],
+        "context_window": 200000,
+        "max_output": 8192,
+        "cost_tier": "low",
+        "use_cases": [
+          "Fast responses",
+          "Cost-effective tasks",
+          "Real-time assistance"
+        ],
+        "status": "vertex_ai"
+      },
+      "gemini-1.5-flash-8b": {
+        "name": "Gemini 1.5 Flash 8B",
+        "provider": "Google Gemini",
+        "endpoint_id": "gemini-1.5-flash-8b",
+        "rank": 20,
+        "capabilities": [
+          "ultra_fast",
+          "high_volume",
+          "cost_effective"
+        ],
+        "context_window": 1000000,
+        "max_output": 8192,
+        "cost_tier": "free",
+        "use_cases": [
+          "High-volume processing",
+          "Cost-free tasks",
+          "Ultra-fast responses"
+        ],
+        "status": "available"
+      }
+    },
+    "model_categories": {
+      "premium": [
+        "gemini-2.5-pro",
+        "gemini-2.5-pro-thinking",
+        "claude-3-5-sonnet",
+        "gpt-4o",
+        "claude-3-opus",
+        "gemini-1.5-pro",
+        "gpt-4-turbo",
+        "gemini-pro-vision",
+        "conductor",
+        "claude-3.5-sonnet-v2",
+        "mama_bear_v3_agentic"
+      ],
+      "medium": [
+        "gemini-2.5-flash",
+        "gemini-2.5-flash-thinking",
+        "gemini-2.0-flash-thinking",
+        "gpt-4o-mini"
+      ],
+      "fast": [
+        "gemini-2.0-flash",
+        "gemini-2.0-flash-lite",
+        "claude-3.5-haiku"
+      ],
+      "free": [
+        "gemini-2.0-flash-lite",
+        "gemini-1.5-flash-8b"
+      ],
+      "enterprise": [
+        "claude-3-opus",
+        "claude-4-opus"
+      ]
+    },
+    "recommended_defaults": {
+      "general": "claude-sonnet-4",
+      "coding": "claude-sonnet-4",
+      "reasoning": "gemini-2.5-pro-preview",
+      "thinking": "claude-opus-4",
+      "fast": "gemini-2.0-flash",
+      "ultra_fast": "gemini-2.0-flash-lite",
+      "multimodal": "gpt-4o",
+      "vision": "claude-3-7-sonnet",
+      "research": "claude-opus-4",
+      "agentic": "gemini-2.0-flash",
+      "voice": "gemini-2.5-flash-native-audio",
+      "live_video": "gemini-2.0-flash-live",
+      "premium": "claude-opus-4",
+      "free": "gemini-2.0-flash-lite"
+    },
+    "native_capabilities": {
+      "audio_input": [
+        "gemini-2.5-flash-native-audio",
+        "gemini-2.0-flash-live"
+      ],
+      "audio_output": [
+        "gemini-2.5-flash-native-audio",
+        "gemini-2.0-flash-live"
+      ],
+      "video_input": [
+        "gemini-2.0-flash-live",
+        "gpt-4o",
+        "claude-sonnet-4"
+      ],
+      "screen_share": [
+        "gemini-2.0-flash-live"
+      ],
+      "bidirectional_voice": [
+        "gemini-2.5-flash-native-audio",
+        "gemini-2.0-flash-live"
+      ],
+      "real_time_streaming": [
+        "gemini-2.0-flash-live",
+        "gemini-2.5-flash-native-audio"
+      ]
+    }
+  }
+}

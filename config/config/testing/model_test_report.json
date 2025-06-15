@@ -1,0 +1,548 @@
+{
+  "timestamp": "2025-06-15T00:13:06.971Z",
+  "total_models": 20,
+  "passed": 16,
+  "failed": 4,
+  "results": [
+    {
+      "model_id": "gemini-2.5-pro-preview",
+      "model_name": "Gemini 2.5 Pro Preview",
+      "provider": "Google Gemini",
+      "rank": 1,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1792,
+        "capability_score": 1,
+        "average_response_time": 1934.3333333333333,
+        "simple_response_time": 1074,
+        "complex_response_time": 2125,
+        "code_response_time": 2604,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:13:06.986Z"
+    },
+    {
+      "model_id": "claude-sonnet-4",
+      "model_name": "Claude Sonnet 4",
+      "provider": "Anthropic",
+      "rank": 2,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 2496,
+        "capability_score": 0.8571428571428571,
+        "average_response_time": 2037.3333333333333,
+        "simple_response_time": 1255,
+        "complex_response_time": 2294,
+        "code_response_time": 2563,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:13:25.128Z"
+    },
+    {
+      "model_id": "claude-opus-4",
+      "model_name": "Claude Opus 4",
+      "provider": "Anthropic",
+      "rank": 3,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1893,
+        "capability_score": 0.875,
+        "average_response_time": 1742.6666666666667,
+        "simple_response_time": 2708,
+        "complex_response_time": 1130,
+        "code_response_time": 1390,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:13:45.342Z"
+    },
+    {
+      "model_id": "gemini-2.5-flash",
+      "model_name": "Gemini 2.5 Flash",
+      "provider": "Google Gemini",
+      "rank": 4,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1425,
+        "capability_score": 0.9,
+        "average_response_time": 1175.6666666666667,
+        "simple_response_time": 1246,
+        "complex_response_time": 1463,
+        "code_response_time": 818,
+        "max_allowed_time": 2000,
+        "performance_grade": "A"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:14:07.765Z"
+    },
+    {
+      "model_id": "gemini-2.5-flash-native-audio",
+      "model_name": "Gemini 2.5 Flash Native Audio",
+      "provider": "Google Gemini",
+      "rank": 5,
+      "passed": false,
+      "tests": {
+        "connection": false,
+        "basic_response": false,
+        "capability_match": false,
+        "performance": false
+      },
+      "performance_metrics": {},
+      "error": "Connection failed: Model status: experimental",
+      "timestamp": "2025-06-15T00:14:17.615Z"
+    },
+    {
+      "model_id": "gemini-2.0-flash-live",
+      "model_name": "Gemini 2.0 Flash Live",
+      "provider": "Google Gemini",
+      "rank": 6,
+      "passed": false,
+      "tests": {
+        "connection": false,
+        "basic_response": false,
+        "capability_match": false,
+        "performance": false
+      },
+      "performance_metrics": {},
+      "error": "Connection failed: Model status: experimental",
+      "timestamp": "2025-06-15T00:14:18.616Z"
+    },
+    {
+      "model_id": "claude-3-7-sonnet",
+      "model_name": "Claude 3.7 Sonnet",
+      "provider": "Anthropic",
+      "rank": 7,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1771,
+        "capability_score": 0.9166666666666666,
+        "average_response_time": 2343.6666666666665,
+        "simple_response_time": 2411,
+        "complex_response_time": 1820,
+        "code_response_time": 2800,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:14:19.618Z"
+    },
+    {
+      "model_id": "gpt-4o",
+      "model_name": "GPT-4o",
+      "provider": "OpenAI",
+      "rank": 8,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1528,
+        "capability_score": 1,
+        "average_response_time": 2337,
+        "simple_response_time": 2481,
+        "complex_response_time": 2936,
+        "code_response_time": 1594,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:14:41.256Z"
+    },
+    {
+      "model_id": "gpt-4o-mini",
+      "model_name": "GPT-4o Mini",
+      "provider": "OpenAI",
+      "rank": 9,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 749,
+        "capability_score": 1,
+        "average_response_time": 872.3333333333334,
+        "simple_response_time": 1318,
+        "complex_response_time": 534,
+        "code_response_time": 765,
+        "max_allowed_time": 2000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:15:00.747Z"
+    },
+    {
+      "model_id": "o1-preview",
+      "model_name": "OpenAI o1 Preview",
+      "provider": "OpenAI",
+      "rank": 10,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 2361,
+        "capability_score": 1,
+        "average_response_time": 1415.3333333333333,
+        "simple_response_time": 1110,
+        "complex_response_time": 1856,
+        "code_response_time": 1280,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:15:08.740Z"
+    },
+    {
+      "model_id": "o1-mini",
+      "model_name": "OpenAI o1 Mini",
+      "provider": "OpenAI",
+      "rank": 11,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 826,
+        "capability_score": 1,
+        "average_response_time": 997.3333333333334,
+        "simple_response_time": 1161,
+        "complex_response_time": 1255,
+        "code_response_time": 576,
+        "max_allowed_time": 2000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:15:25.293Z"
+    },
+    {
+      "model_id": "gpt-4-turbo",
+      "model_name": "GPT-4 Turbo",
+      "provider": "OpenAI",
+      "rank": 12,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1233,
+        "capability_score": 1,
+        "average_response_time": 1620.3333333333333,
+        "simple_response_time": 2499,
+        "complex_response_time": 1266,
+        "code_response_time": 1096,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:15:34.943Z"
+    },
+    {
+      "model_id": "gemini-2.0-flash",
+      "model_name": "Gemini 2.0 Flash",
+      "provider": "Google Gemini",
+      "rank": 13,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 264,
+        "capability_score": 0.7,
+        "average_response_time": 400.3333333333333,
+        "simple_response_time": 475,
+        "complex_response_time": 420,
+        "code_response_time": 306,
+        "max_allowed_time": 1000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:15:53.191Z"
+    },
+    {
+      "model_id": "gemini-1.5-pro",
+      "model_name": "Gemini 1.5 Pro",
+      "provider": "Google Gemini",
+      "rank": 14,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1760,
+        "capability_score": 0.875,
+        "average_response_time": 1925,
+        "simple_response_time": 2749,
+        "complex_response_time": 1743,
+        "code_response_time": 1283,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:15:56.449Z"
+    },
+    {
+      "model_id": "claude-3-5-sonnet-v2",
+      "model_name": "Claude 3.5 Sonnet v2",
+      "provider": "Anthropic",
+      "rank": 15,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1566,
+        "capability_score": 0.8333333333333334,
+        "average_response_time": 1415,
+        "simple_response_time": 1034,
+        "complex_response_time": 2037,
+        "code_response_time": 1174,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:16:10.586Z"
+    },
+    {
+      "model_id": "claude-3-5-haiku",
+      "model_name": "Claude 3.5 Haiku",
+      "provider": "Anthropic",
+      "rank": 16,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1457,
+        "capability_score": 1,
+        "average_response_time": 915.3333333333334,
+        "simple_response_time": 1435,
+        "complex_response_time": 786,
+        "code_response_time": 525,
+        "max_allowed_time": 2000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:16:26.378Z"
+    },
+    {
+      "model_id": "gemini-1.5-flash",
+      "model_name": "Gemini 1.5 Flash",
+      "provider": "Google Gemini",
+      "rank": 17,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 736,
+        "capability_score": 0.875,
+        "average_response_time": 1216,
+        "simple_response_time": 1495,
+        "complex_response_time": 1135,
+        "code_response_time": 1018,
+        "max_allowed_time": 2000,
+        "performance_grade": "A"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:16:35.749Z"
+    },
+    {
+      "model_id": "claude-3-opus",
+      "model_name": "Claude 3 Opus",
+      "provider": "Anthropic",
+      "rank": 18,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 2085,
+        "capability_score": 1,
+        "average_response_time": 2286.3333333333335,
+        "simple_response_time": 2695,
+        "complex_response_time": 1986,
+        "code_response_time": 2178,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:16:43.989Z"
+    },
+    {
+      "model_id": "gemini-2.0-flash-lite",
+      "model_name": "Gemini 2.0 Flash Lite",
+      "provider": "Google Gemini",
+      "rank": 19,
+      "passed": false,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": false,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 235,
+        "capability_score": 0.5,
+        "average_response_time": 465.3333333333333,
+        "simple_response_time": 430,
+        "complex_response_time": 573,
+        "code_response_time": 393,
+        "max_allowed_time": 1000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:17:02.065Z"
+    },
+    {
+      "model_id": "gemini-1.5-flash-8b",
+      "model_name": "Gemini 1.5 Flash-8B",
+      "provider": "Google Gemini",
+      "rank": 20,
+      "passed": false,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": false,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 429,
+        "capability_score": 0.5,
+        "average_response_time": 542.6666666666666,
+        "simple_response_time": 490,
+        "complex_response_time": 628,
+        "code_response_time": 510,
+        "max_allowed_time": 1000,
+        "performance_grade": "A"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:17:04.696Z"
+    }
+  ],
+  "summary": {
+    "success_rate": "80.0%",
+    "fastest_model": {
+      "model_id": "gemini-2.0-flash",
+      "model_name": "Gemini 2.0 Flash",
+      "provider": "Google Gemini",
+      "rank": 13,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 264,
+        "capability_score": 0.7,
+        "average_response_time": 400.3333333333333,
+        "simple_response_time": 475,
+        "complex_response_time": 420,
+        "code_response_time": 306,
+        "max_allowed_time": 1000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:15:53.191Z"
+    },
+    "most_capable_model": {
+      "model_id": "gemini-2.5-pro-preview",
+      "model_name": "Gemini 2.5 Pro Preview",
+      "provider": "Google Gemini",
+      "rank": 1,
+      "passed": true,
+      "tests": {
+        "connection": true,
+        "basic_response": true,
+        "capability_match": true,
+        "performance": true
+      },
+      "performance_metrics": {
+        "response_time": 1792,
+        "capability_score": 1,
+        "average_response_time": 1934.3333333333333,
+        "simple_response_time": 1074,
+        "complex_response_time": 2125,
+        "code_response_time": 2604,
+        "max_allowed_time": 5000,
+        "performance_grade": "A+"
+      },
+      "error": null,
+      "timestamp": "2025-06-15T00:13:06.986Z"
+    },
+    "recommended_defaults": {
+      "speed": "gemini-2.0-flash",
+      "reasoning": "gemini-2.5-pro-preview",
+      "coding": "gemini-2.5-pro-preview"
+    }
+  }
+}

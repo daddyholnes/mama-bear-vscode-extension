@@ -1,0 +1,34 @@
+# Development files
+.vscode/**
+.vscode-test/**
+.gitignore
+tsconfig.json
+vscode_extension_package.json
+example-ui.html
+
+# Build files
+src/**
+*.ts
+!out/**
+
+# Documentation (keep essential ones)
+mama_bear_complete_guide.md
+mama_bear_readme.md
+
+# Config testing files
+config/config/**
+config/testing/**
+config/reports/**
+config/scripts/discover-capabilities.js
+config/scripts/test-models.js
+
+# Large images
+google-ai-studio-logo.png
+
+# Dependencies (keep only essentials)
+node_modules/@types/**
+node_modules/.bin/**
+
+# System files
+.DS_Store
+Thumbs.db

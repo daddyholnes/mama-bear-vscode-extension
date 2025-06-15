@@ -1,0 +1,176 @@
+version: '3.8'
+
+networks:
+  mama-bear-network:
+    driver: bridge
+  revolutionary-dev-network:
+    external: true
+
+volumes:
+  mama-bear-data:
+    driver: local
+  mama-bear-logs:
+    driver: local
+  mama-bear-uploads:
+    driver: local
+
+services:
+  mama-bear-backend:
+    build:
+      context: ../../
+      dockerfile: config/docker/Dockerfile.backend
+    container_name: mama-bear-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/service-account.json
+      - MEM0_ENABLED=true
+      - MCP_HOST=mama-bear-mcp
+      - MCP_PORT=8811
+    volumes:
+      - /home/woody/CascadeProjects/podplay-scout-alpha/podplay-build-beta-10490f7d079e.json:/app/credentials/service-account.json:ro
+      - /home/woody/CascadeProjects/podplay-scout-alpha/backend:/app/backend:ro
+      - ../services/mama-bear-backend.json:/app/config/service.json:ro
+      - ../models/mama-bear-models.json:/app/config/models.json:ro
+      - mama-bear-logs:/app/logs
+      - mama-bear-uploads:/app/uploads
+    networks:
+      - mama-bear-network
+      - revolutionary-dev-network
+    depends_on:
+      mama-bear-mcp:
+        condition: service_healthy
+      mama-bear-memory:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  mama-bear-mcp:
+    image: node:18-alpine
+    container_name: mama-bear-mcp
+    ports:
+      - "8811:8811"
+    environment:
+      - MCP_PORT=8811
+      - MCP_HOST=0.0.0.0
+    command: >
+      sh -c "
+        npm init -y &&
+        npm install express &&
+        cat > server.js << 'EOF'
+        const express = require('express');
+        const app = express();
+        app.use(express.json());
+        app.get('/health', (req, res) => res.json({status: 'ok', service: 'mama-bear-mcp'}));
+        app.get('/api/tools', (req, res) => res.json({tools: ['file-operations', 'code-analysis', 'git-operations']}));
+        app.listen(8811, '0.0.0.0', () => console.log('MCP Server running on port 8811'));
+        EOF
+        node server.js
+      "
+    networks:
+      - revolutionary-dev-network
+      - mama-bear-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8811/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  mama-bear-memory:
+    image: chromadb/chroma:latest
+    container_name: mama-bear-memory
+    ports:
+      - "8000:8000"
+    environment:
+      - CHROMA_HOST=0.0.0.0
+      - CHROMA_PORT=8000
+      - PERSIST_DIRECTORY=/chroma/data
+    volumes:
+      - mama-bear-data:/chroma/data
+    networks:
+      - mama-bear-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  code-server-mama-bear:
+    build:
+      context: code-server
+      dockerfile: Dockerfile
+    container_name: code-server-mama-bear
+    ports:
+      - "8080:8080"
+    environment:
+      - PASSWORD=mama-bear-sanctuary
+      - SHELL=/bin/bash
+      - MAMA_BEAR_BACKEND_URL=http://mama-bear-backend:5000
+      - MCP_URL=ws://mama-bear-mcp:8811/mcp
+    volumes:
+      - ../../:/home/coder/workspace/mama-bear-extension:rw
+      - /home/woody/CascadeProjects:/home/coder/workspace/projects:ro
+      - mama-bear-logs:/home/coder/logs:ro
+    networks:
+      - mama-bear-network
+    depends_on:
+      mama-bear-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  mama-bear-monitor:
+    image: prom/prometheus:latest
+    container_name: mama-bear-monitor
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - mama-bear-data:/prometheus
+    networks:
+      - mama-bear-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  mama-bear-nginx:
+    image: nginx:alpine
+    container_name: mama-bear-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - mama-bear-network
+    depends_on:
+      - mama-bear-backend
+      - code-server-mama-bear
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped

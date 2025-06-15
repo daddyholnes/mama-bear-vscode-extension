@@ -1,0 +1,204 @@
+{
+  "service_name": "mama-bear-backend",
+  "version": "2.0.0",
+  "description": "Mama Bear AI Backend Service - Multimodal AI with Vertex AI Integration",
+  "port": 5000,
+  "host": "localhost",
+  "protocol": "http",
+  "base_url": "http://localhost:5000",
+  
+  "authentication": {
+    "type": "service_account",
+    "service_account_file": "/app/config/auth/vertex-ai-service-account.json",
+    "project_id": "revolutionary-ai-workspace",
+    "location": "us-central1",
+    "service_accounts": [
+      "/home/woody/CascadeProjects/podplay-scout-alpha/podplay-build-beta-10490f7d079e.json",
+      "/home/woody/CascadeProjects/podplay-scout-alpha/podplay-build-alpha-8fcf03975028.json"
+    ],
+    "headers": {
+      "X-Service-Account-Auth": "vertex-ai",
+      "X-Client-Type": "mama-bear-vscode-extension",
+      "Content-Type": "application/json"
+    }
+  },
+
+  "endpoints": {
+    "health": "/health",
+    "chat": "/api/v1/chat",
+    "completion": "/api/v1/completion",
+    "models": "/api/v1/models",
+    "upload": "/api/v1/upload",
+    "voice": "/api/v1/voice",
+    "image": "/api/v1/image",
+    "multimodal": "/api/v1/multimodal",
+    "memory": "/api/v1/memory",
+    "rag": "/api/v1/rag",
+    "search": "/api/v1/search",
+    "tools": "/api/v1/tools",
+    "mcp": "/api/v1/mcp",
+    "agentic": "/api/v1/agentic",
+    "express": "/api/express-mode/ultra-fast"
+  },
+
+  "features": {
+    "multimodal_support": true,
+    "file_upload": true,
+    "voice_processing": true,
+    "image_analysis": true,
+    "memory_persistence": true,
+    "rag_integration": true,
+    "mcp_protocol": true,
+    "agentic_workflows": true,
+    "background_processing": true,
+    "streaming_responses": true
+  },
+
+  "model_configuration": {
+    "default_model": "gemini-2.5-flash",
+    "model_registry_path": "/app/config/models/mama-bear-models.json",
+    "model_fallback": "gemini-2.0-flash",
+    "express_mode": {
+      "enabled": true,
+      "default_model": "gemini-2.0-flash-lite",
+      "timeout_ms": 5000
+    }
+  },
+
+  "memory_configuration": {
+    "provider": "mem0",
+    "persistent_storage": true,
+    "vector_db": "chromadb",
+    "embedding_model": "gemini-embedding",
+    "memory_types": [
+      "user_preferences",
+      "conversation_history",
+      "code_context",
+      "project_knowledge",
+      "user_patterns"
+    ]
+  },
+
+  "mcp_integration": {
+    "enabled": true,
+    "docker_host": "localhost",
+    "mcp_port": 8811,
+    "mcp_protocol": "ws",
+    "mcp_url": "ws://localhost:8811/mcp",
+    "tools_discovery": true,
+    "marketplace_integration": true,
+    "network": "revolutionary-dev-network"
+  },
+
+  "file_handling": {
+    "max_file_size_mb": 100,
+    "allowed_types": [
+      "text/plain",
+      "application/json",
+      "application/javascript",
+      "text/typescript",
+      "text/python",
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "audio/wav",
+      "audio/mp3",
+      "audio/webm",
+      "application/pdf",
+      "text/markdown"
+    ],
+    "upload_path": "/app/uploads/",
+    "temp_cleanup": true,
+    "cleanup_interval_hours": 24
+  },
+
+  "security": {
+    "cors_enabled": true,
+    "allowed_origins": [
+      "vscode-webview://",
+      "http://localhost:*",
+      "https://localhost:*"
+    ],
+    "rate_limiting": {
+      "enabled": true,
+      "requests_per_minute": 100,
+      "requests_per_hour": 1000
+    },
+    "input_validation": true,
+    "output_sanitization": true
+  },
+
+  "logging": {
+    "level": "info",
+    "file": "/app/logs/mama-bear-backend.log",
+    "rotation": "daily",
+    "max_files": 7,
+    "console_output": true,
+    "structured_logging": true
+  },
+
+  "performance": {
+    "response_timeout_ms": 30000,
+    "connection_timeout_ms": 5000,
+    "retry_attempts": 3,
+    "retry_delay_ms": 1000,
+    "concurrent_requests": 10,
+    "cache_enabled": true,
+    "cache_ttl_seconds": 300
+  },
+
+  "monitoring": {
+    "health_check_interval_seconds": 30,
+    "metrics_enabled": true,
+    "performance_tracking": true,
+    "error_reporting": true,
+    "usage_analytics": true
+  },
+
+  "deployment": {
+    "environment": "development",
+    "auto_restart": true,
+    "graceful_shutdown": true,
+    "deployment_timestamp": "2025-01-27T00:00:00Z",
+    "version_info": {
+      "backend_version": "2.0.0",
+      "extension_version": "1.0.0",
+      "last_updated": "2025-01-27T00:00:00Z"
+    }
+  },
+
+  "legacy_compatibility": {
+    "old_endpoints": {
+      "models": "/api/multimodal-chat/models",
+      "chat": "/api/mama-bear/chat",
+      "multimodal": {
+        "upload": "/api/multimodal/upload",
+        "image": "/api/multimodal/image",
+        "voice": "/api/multimodal/voice"
+      },
+      "mcp": {
+        "connect": "/api/mcp/docker/connect",
+        "tools": "/api/mcp/tools",
+        "execute": "/api/mcp/execute"
+      },
+      "memory": {
+        "save": "/api/memory/save",
+        "search": "/api/memory/search"
+      }
+    },
+    "environment": {
+      "NODE_ENV": "production",
+      "LOG_LEVEL": "info",
+      "ENABLE_CORS": true,
+      "MAX_REQUEST_SIZE": "50mb",
+      "TIMEOUT": "60000"
+    },
+    "dependencies": {
+      "mem0_rag": {
+        "enabled": true,
+        "config": "/home/woody/CascadeProjects/podplay-scout-alpha/backend/services/mama_bear_memory_system.py"
+      }
+    }
+  }
+}

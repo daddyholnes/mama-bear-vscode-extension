@@ -1,0 +1,462 @@
+{
+  "mama_bear_capabilities": {
+    "system_info": {
+      "platform": "linux",
+      "architecture": "x64",
+      "node_version": "v20.19.2",
+      "memory_usage": {
+        "rss": 43778048,
+        "heapTotal": 4689920,
+        "heapUsed": 4160032,
+        "external": 1624710,
+        "arrayBuffers": 10515
+      },
+      "uptime": 0.053757322,
+      "environment": "development",
+      "workspace_path": "/home/woody/CascadeProjects/mama-bear-vscode-extension/config/",
+      "timestamp": "2025-06-15T00:23:38.232Z",
+      "vscode_environment": {
+        "in_vscode": false,
+        "extension_host": false,
+        "webview_environment": false
+      }
+    },
+    "memory_system": {
+      "configured": true,
+      "provider": "mem0",
+      "persistent_storage": true,
+      "vector_db": "chromadb",
+      "embedding_model": "gemini-embedding",
+      "capabilities": [
+        "user_preferences",
+        "conversation_history",
+        "code_context",
+        "project_knowledge",
+        "user_patterns",
+        "cross_session_persistence",
+        "semantic_search",
+        "contextual_recall"
+      ],
+      "operations": [
+        "search",
+        "add",
+        "update",
+        "delete",
+        "upsert",
+        "get_all",
+        "get_history"
+      ],
+      "config_path": "/home/woody/CascadeProjects/mama-bear-vscode-extension/config/services/mama-bear-backend.json",
+      "status": "configured",
+      "config_details": {
+        "provider": "mem0",
+        "persistent_storage": true,
+        "vector_db": "chromadb",
+        "embedding_model": "gemini-embedding",
+        "memory_types": [
+          "user_preferences",
+          "conversation_history",
+          "code_context",
+          "project_knowledge",
+          "user_patterns"
+        ]
+      }
+    },
+    "vscode_integration": {
+      "extension_configured": false,
+      "source_files": 0,
+      "capabilities": [
+        "file_operations",
+        "code_analysis",
+        "project_management",
+        "git_integration",
+        "terminal_control",
+        "webview_provider",
+        "command_execution",
+        "extension_management",
+        "workspace_management",
+        "settings_management"
+      ],
+      "providers": [
+        "MamaBearChatProvider",
+        "MamaBearTerminalProvider",
+        "MamaBearCodeCompletion",
+        "MamaBearFileAnalyzer",
+        "MamaBearGitProvider",
+        "MamaBearWorkspaceProvider"
+      ],
+      "commands": [],
+      "keybindings": [],
+      "views": []
+    },
+    "mcp_tools": {
+      "docker_available": true,
+      "mcp_configured": true,
+      "available_tools": [
+        {
+          "name": "playwright-browser",
+          "category": "browser_automation",
+          "capabilities": [
+            "web_scraping",
+            "ui_testing"
+          ]
+        },
+        {
+          "name": "code-analyzer",
+          "category": "code_analysis",
+          "capabilities": [
+            "static_analysis",
+            "security_scan"
+          ]
+        },
+        {
+          "name": "file-processor",
+          "category": "file_management",
+          "capabilities": [
+            "batch_operations",
+            "format_conversion"
+          ]
+        },
+        {
+          "name": "data-transformer",
+          "category": "data_processing",
+          "capabilities": [
+            "data_cleaning",
+            "format_conversion"
+          ]
+        },
+        {
+          "name": "ai-assistant",
+          "category": "ai_assistants",
+          "capabilities": [
+            "language_processing",
+            "content_generation"
+          ]
+        }
+      ],
+      "tool_categories": {
+        "browser_automation": [
+          {
+            "name": "playwright-browser",
+            "category": "browser_automation",
+            "capabilities": [
+              "web_scraping",
+              "ui_testing"
+            ]
+          }
+        ],
+        "code_analysis": [
+          {
+            "name": "code-analyzer",
+            "category": "code_analysis",
+            "capabilities": [
+              "static_analysis",
+              "security_scan"
+            ]
+          }
+        ],
+        "file_management": [
+          {
+            "name": "file-processor",
+            "category": "file_management",
+            "capabilities": [
+              "batch_operations",
+              "format_conversion"
+            ]
+          }
+        ],
+        "data_processing": [
+          {
+            "name": "data-transformer",
+            "category": "data_processing",
+            "capabilities": [
+              "data_cleaning",
+              "format_conversion"
+            ]
+          }
+        ],
+        "ai_assistants": [
+          {
+            "name": "ai-assistant",
+            "category": "ai_assistants",
+            "capabilities": [
+              "language_processing",
+              "content_generation"
+            ]
+          }
+        ],
+        "security_tools": [],
+        "testing_tools": [],
+        "deployment_tools": []
+      },
+      "capabilities": [
+        "tool_discovery",
+        "tool_installation",
+        "tool_execution",
+        "container_management",
+        "service_orchestration",
+        "tool_chaining",
+        "marketplace_integration"
+      ]
+    },
+    "model_registry": {
+      "configured": true,
+      "total_models": 20,
+      "available_models": [
+        "gemini-2.5-pro-preview",
+        "claude-sonnet-4",
+        "claude-opus-4",
+        "gemini-2.5-flash",
+        "gemini-2.5-flash-native-audio",
+        "gemini-2.0-flash-live",
+        "claude-3-7-sonnet",
+        "gpt-4o",
+        "gpt-4o-mini",
+        "o1-preview",
+        "o1-mini",
+        "gpt-4-turbo",
+        "gemini-2.0-flash",
+        "gemini-1.5-pro",
+        "claude-3-5-sonnet-v2",
+        "claude-3-5-haiku",
+        "gemini-1.5-flash",
+        "claude-3-opus",
+        "gemini-2.0-flash-lite",
+        "gemini-1.5-flash-8b"
+      ],
+      "model_categories": {},
+      "capabilities": [
+        "model_selection",
+        "capability_matching",
+        "performance_optimization",
+        "cost_optimization",
+        "context_management",
+        "multimodal_support",
+        "streaming_responses",
+        "batch_processing"
+      ],
+      "providers": [
+        "Google Gemini",
+        "Anthropic",
+        "OpenAI"
+      ],
+      "recommended_defaults": {
+        "general": "claude-sonnet-4",
+        "coding": "claude-sonnet-4",
+        "reasoning": "gemini-2.5-pro-preview",
+        "thinking": "claude-opus-4",
+        "fast": "gemini-2.0-flash",
+        "ultra_fast": "gemini-2.0-flash-lite",
+        "multimodal": "gpt-4o",
+        "vision": "claude-3-7-sonnet",
+        "research": "claude-opus-4",
+        "agentic": "gemini-2.0-flash",
+        "voice": "gemini-2.5-flash-native-audio",
+        "live_video": "gemini-2.0-flash-live",
+        "premium": "claude-opus-4",
+        "free": "gemini-2.0-flash-lite"
+      }
+    },
+    "file_operations": {
+      "workspace_accessible": true,
+      "file_count": 9,
+      "directory_count": 10,
+      "supported_operations": [
+        "create",
+        "read",
+        "update",
+        "delete",
+        "rename",
+        "copy",
+        "move",
+        "search",
+        "watch",
+        "analyze"
+      ],
+      "supported_formats": [
+        "typescript",
+        "javascript",
+        "json",
+        "markdown",
+        "yaml",
+        "dockerfile",
+        "shell_scripts",
+        "configuration_files"
+      ],
+      "capabilities": [
+        "syntax_analysis",
+        "dependency_tracking",
+        "code_completion",
+        "error_detection",
+        "formatting",
+        "refactoring",
+        "search_and_replace",
+        "bulk_operations"
+      ],
+      "analysis": {
+        "totalFiles": 9,
+        "totalDirectories": 10,
+        "fileTypes": {
+          ".json": 5,
+          ".yml": 1,
+          ".js": 2,
+          ".sh": 1
+        }
+      }
+    },
+    "network_services": {
+      "backend_configured": true,
+      "services": [],
+      "endpoints": [
+        "health",
+        "chat",
+        "completion",
+        "models",
+        "upload",
+        "voice",
+        "image",
+        "multimodal",
+        "memory",
+        "rag",
+        "search",
+        "tools",
+        "mcp",
+        "agentic",
+        "express"
+      ],
+      "capabilities": [
+        "http_requests",
+        "websocket_connections",
+        "streaming_responses",
+        "file_uploads",
+        "authentication",
+        "rate_limiting",
+        "cors_handling",
+        "error_handling"
+      ],
+      "protocols": [
+        "http",
+        "https",
+        "ws",
+        "wss"
+      ],
+      "ports": [],
+      "port": 5000,
+      "authentication": {
+        "type": "service_account",
+        "service_account_file": "/app/config/auth/vertex-ai-service-account.json",
+        "project_id": "revolutionary-ai-workspace",
+        "location": "us-central1",
+        "service_accounts": [
+          "/home/woody/CascadeProjects/podplay-scout-alpha/podplay-build-beta-10490f7d079e.json",
+          "/home/woody/CascadeProjects/podplay-scout-alpha/podplay-build-alpha-8fcf03975028.json"
+        ],
+        "headers": {
+          "X-Service-Account-Auth": "vertex-ai",
+          "X-Client-Type": "mama-bear-vscode-extension",
+          "Content-Type": "application/json"
+        }
+      },
+      "features": {
+        "multimodal_support": true,
+        "file_upload": true,
+        "voice_processing": true,
+        "image_analysis": true,
+        "memory_persistence": true,
+        "rag_integration": true,
+        "mcp_protocol": true,
+        "agentic_workflows": true,
+        "background_processing": true,
+        "streaming_responses": true
+      }
+    },
+    "docker_environment": {
+      "docker_available": true,
+      "compose_available": true,
+      "containers": 5,
+      "images": 10,
+      "capabilities": [
+        "container_management",
+        "image_building",
+        "service_orchestration",
+        "volume_management",
+        "network_management",
+        "health_checks",
+        "scaling",
+        "monitoring"
+      ],
+      "compose_files": [],
+      "dockerfiles": []
+    },
+    "security_features": {
+      "authentication_configured": true,
+      "service_accounts": [
+        "/home/woody/CascadeProjects/podplay-scout-alpha/podplay-build-beta-10490f7d079e.json",
+        "/home/woody/CascadeProjects/podplay-scout-alpha/podplay-build-alpha-8fcf03975028.json"
+      ],
+      "cors_enabled": true,
+      "rate_limiting": true,
+      "input_validation": true,
+      "capabilities": [
+        "service_account_auth",
+        "cors_protection",
+        "rate_limiting",
+        "input_validation",
+        "output_sanitization",
+        "secure_headers",
+        "encryption",
+        "access_control"
+      ],
+      "security_files": []
+    },
+    "performance_metrics": {
+      "monitoring_configured": true,
+      "metrics_available": [],
+      "capabilities": [
+        "response_time_tracking",
+        "throughput_measurement",
+        "error_rate_monitoring",
+        "resource_utilization",
+        "cache_performance",
+        "model_performance",
+        "health_checks",
+        "alerting"
+      ],
+      "health_endpoints": [
+        "/health"
+      ],
+      "caching": {
+        "enabled": true,
+        "providers": []
+      },
+      "response_timeout": 30000
+    },
+    "discovery_timestamp": "2025-06-15T00:23:38.231Z"
+  },
+  "summary": {
+    "total_capabilities": 73,
+    "system_readiness": {
+      "percentage": "80.0",
+      "ready_components": 4,
+      "total_components": 5,
+      "status": "ready",
+      "details": {
+        "memory_system": true,
+        "vscode_integration": false,
+        "model_registry": true,
+        "network_services": true,
+        "docker_environment": true
+      }
+    },
+    "recommendations": [],
+    "missing_components": [],
+    "next_steps": [
+      "Run model testing script to validate all models",
+      "Deploy backend services using Docker Compose",
+      "Test VS Code extension with full capabilities",
+      "Configure memory system with initial data"
+    ]
+  },
+  "generated_at": "2025-06-15T00:23:38.897Z",
+  "generator": "Mama Bear Capability Discovery v1.0"
+}

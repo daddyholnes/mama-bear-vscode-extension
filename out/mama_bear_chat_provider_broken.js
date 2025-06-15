@@ -1,41 +1,6 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MamaBearChatProvider = void 0;
-// src/providers/MamaBearChatProvider.ts
-const vscode = __importStar(require("vscode"));
 class MamaBearChatProvider {
     constructor(context, apiClient) {
         this._conversationHistory = [];
@@ -750,355 +715,1031 @@ class MamaBearChatProvider {
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
             background: var(--vscode-editor-background, #1e1e1e);
             color: var(--vscode-editor-foreground, #d4d4d4);
             height: 100vh;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
         }
 
-        .header {
-            padding: 12px 16px;
-            background: var(--vscode-titleBar-activeBackground, #3c3c3c);
-            border-bottom: 1px solid var(--vscode-panel-border, #2d2d30);
+        .main-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Clean Chat Area - Main Focus */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--vscode-editor-background, #1e1e1e);
+            position: relative;
+        }
+
+        /* Top Header Bar with Inlaid Controls */
+        .top-header {
             display: flex;
             align-items: center;
+            padding: 8px 20px;
+            background: var(--vscode-titleBar-activeBackground, #3c3c3c);
+            border-bottom: 1px solid var(--vscode-panel-border, #2d2d30);
+            position: relative;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Inlaid Header Icons */
+        .header-icon {
+            width: 28px;
+            height: 28px;
+            background: none;
+            border: none;
+            color: var(--vscode-foreground, #cccccc);
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .header-icon:hover {
+            background: var(--vscode-toolbar-hoverBackground, rgba(255,255,255,0.05));
+            transform: translateY(-1px);
+        }
+
+        /* Mode Toggles */
+        .mode-toggles {
+            display: flex;
             gap: 12px;
         }
 
-        .title {
-            font-weight: 600;
-            font-size: 14px;
+        .mode-toggle {
+            padding: 4px 12px;
+            background: var(--vscode-button-secondaryBackground, rgba(255,255,255,0.05));
+            border: none;
+            border-radius: 12px;
+            color: var(--vscode-foreground, #cccccc);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
+        .mode-toggle.active {
+            background: var(--vscode-button-background, #0e639c);
+            color: white;
+            box-shadow: 0 2px 8px rgba(14, 99, 156, 0.3);
+        }
+
+        /* Model Selector */
         .model-selector {
             background: var(--vscode-dropdown-background, #3c3c3c);
-            border: 1px solid var(--vscode-dropdown-border, #454545);
-            border-radius: 4px;
-            padding: 4px 8px;
+            border: 1px solid var(--vscode-dropdown-border, #3c3c3c);
+            border-radius: 8px;
+            padding: 6px 12px;
             color: var(--vscode-dropdown-foreground, #cccccc);
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
+            min-width: 120px;
         }
 
-        .messages {
+        /* Chat Messages Area */
+        .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 16px;
+            padding: 20px 24px;
+            scroll-behavior: smooth;
         }
 
         .message {
-            margin-bottom: 16px;
-            padding: 12px 16px;
-            border-radius: 8px;
-            max-width: 85%;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message.user {
-            background: var(--vscode-inputOption-activeBorder, #0e639c);
-            color: white;
-            margin-left: auto;
+            flex-direction: row-reverse;
         }
 
-        .message.assistant {
-            background: var(--vscode-input-background, #3c3c3c);
-            border: 1px solid var(--vscode-input-border, #454545);
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
         }
 
-        .message.system {
-            background: var(--vscode-editor-selectionBackground, rgba(255,255,255,0.1));
-            font-style: italic;
-            text-align: center;
-            max-width: 100%;
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .message.assistant .message-avatar {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+        }
+
+        .message-content {
+            background: var(--vscode-chat-requestBackground, #2d2d30);
+            border-radius: 16px 16px 16px 4px;
+            padding: 16px 20px;
+            max-width: 80%;
+            position: relative;
+        }
+
+        .message.user .message-content {
+            background: var(--vscode-chat-slashCommandBackground, #553c9a);
+            border-radius: 16px 16px 4px 16px;
         }
 
         .message-meta {
             font-size: 11px;
-            opacity: 0.7;
+            color: var(--vscode-descriptionForeground, #969696);
             margin-top: 8px;
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Enhanced Chat Input with Inlaid Border Controls */
+        .chat-input-container {
+            padding: 20px 24px;
+            background: var(--vscode-input-background, #3c3c3c);
+            border-top: 1px solid var(--vscode-panel-border, #2d2d30);
+        }
+
+        .input-wrapper {
+            position: relative;
+            background: var(--vscode-editor-background, #1e1e1e);
+            border-radius: 24px;
+            border: 3px solid var(--vscode-input-border, #3c3c3c);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            min-height: 48px;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Left Border Controls */
+        .left-controls {
+            display: flex;
+            align-items: center;
+            padding: 0 4px 0 8px;
+            gap: 4px;
+        }
+
+        /* Right Border Controls */
+        .right-controls {
+            display: flex;
+            align-items: center;
+            padding: 0 8px 0 4px;
+            gap: 4px;
+        }
+
+        /* Inlaid Border Buttons */
+        .border-btn {
+            width: 32px;
+            height: 32px;
+            background: none;
+            border: none;
+            color: var(--vscode-foreground, #aaa);
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+
+        .border-btn:hover {
+            background: var(--vscode-toolbar-hoverBackground, rgba(255,255,255,0.05));
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .border-btn.recording {
+            color: #ef4444;
+            opacity: 1;
+            animation: pulse 1s infinite;
+        }
+
+        .border-btn.send {
+            background: #6366f1;
+            color: white;
+            opacity: 1;
+        }
+
+        .border-btn.send:hover {
+            background: #5855eb;
+        }
+
+        .border-btn.send:disabled {
+            background: #374151;
+            cursor: not-allowed;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Main Text Input */
+        .main-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--vscode-input-foreground, #cccccc);
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            min-height: 32px;
+            max-height: 120px;
+            line-height: 1.5;
+            padding: 8px 12px;
+        }
+
+        .main-input::placeholder {
+            color: var(--vscode-input-placeholderForeground, #888);
+        }
+
+        /* Popup Menus */
+        .popup-menu {
+            position: absolute;
+            background: var(--vscode-menu-background, #3c3c3c);
+            border: 1px solid var(--vscode-menu-border, #454545);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(20px);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .popup-menu.show {
+            display: block;
+            animation: popupIn 0.2s ease;
+        }
+
+        @keyframes popupIn {
+            from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Status Pills */
+        .status-pills {
+            display: flex;
+            gap: 6px;
+            margin-left: 12px;
+        }
+
+        .status-pill {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .pill-memory {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .pill-mcp {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .pill-express {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
 
         .typing-indicator {
-            padding: 8px 16px;
-            font-style: italic;
-            opacity: 0.7;
             display: none;
+            font-size: 12px;
+            opacity: 0.7;
+            padding: 4px 8px;
         }
 
         .typing-indicator.active {
             display: block;
         }
 
-        .input-container {
-            padding: 16px;
-            border-top: 1px solid var(--vscode-panel-border, #2d2d30);
+        /* Multimodal Upload Zone */
+        .upload-zone {
+            margin-bottom: 16px;
+            padding: 20px;
+            border: 2px dashed var(--vscode-input-border, #3c3c3c);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: none;
         }
 
-        .input-row {
+        .upload-zone.active {
+            display: block;
+        }
+
+        .upload-zone.dragover {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .file-preview {
             display: flex;
             gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .message-input {
-            flex: 1;
-            background: var(--vscode-input-background, #3c3c3c);
-            border: 1px solid var(--vscode-input-border, #454545);
-            border-radius: 4px;
-            padding: 8px 12px;
-            color: var(--vscode-input-foreground, #cccccc);
-            font-size: 13px;
-            resize: vertical;
-            min-height: 36px;
-            max-height: 120px;
-        }
-
-        .message-input:focus {
-            outline: none;
-            border-color: var(--vscode-focusBorder, #0e639c);
-        }
-
-        .send-button {
-            background: var(--vscode-button-background, #0e639c);
-            border: none;
-            border-radius: 4px;
-            padding: 8px 16px;
-            color: var(--vscode-button-foreground, white);
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .send-button:hover {
-            background: var(--vscode-button-hoverBackground, #1177bb);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 6px;
             flex-wrap: wrap;
+            margin-bottom: 12px;
         }
 
-        .action-button {
-            background: var(--vscode-button-secondaryBackground, rgba(255,255,255,0.1));
-            border: none;
-            border-radius: 4px;
+        .file-tag {
+            background: var(--vscode-badge-background, #0e639c);
+            color: var(--vscode-badge-foreground, white);
             padding: 4px 8px;
-            color: var(--vscode-button-secondaryForeground, #cccccc);
-            cursor: pointer;
+            border-radius: 6px;
             font-size: 11px;
-            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .action-button:hover {
-            background: var(--vscode-button-secondaryHoverBackground, rgba(255,255,255,0.2));
+        .remove-file {
+            cursor: pointer;
+            opacity: 0.7;
         }
 
-        .action-button.active {
-            background: var(--vscode-button-background, #0e639c);
-            color: var(--vscode-button-foreground, white);
-        }
-
-        pre {
-            background: var(--vscode-textCodeBlock-background, #2d2d30);
-            padding: 8px;
-            border-radius: 4px;
-            overflow-x: auto;
-            margin: 8px 0;
+        .remove-file:hover {
+            opacity: 1;
         }
 
         code {
-            background: var(--vscode-textCodeBlock-background, #2d2d30);
-            padding: 2px 4px;
+            background: var(--vscode-textCodeBlock-background);
+            padding: 1px 4px;
             border-radius: 2px;
-            font-family: var(--vscode-editor-font-family, monospace);
+            font-family: var(--vscode-editor-font-family);
         }
 
-        .autonomous-actions {
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(139, 92, 246, 0.1);
-            border-radius: 6px;
-            border-left: 3px solid #8b5cf6;
+        pre {
+            background: var(--vscode-textCodeBlock-background);
+            padding: 8px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: var(--vscode-editor-font-family);
         }
 
-        .autonomous-actions h4 {
-            color: #8b5cf6;
-            margin-bottom: 8px;
-            font-size: 12px;
+        /* Tooltips */
+        [data-tooltip] {
+            position: relative;
         }
 
-        .autonomous-actions ul {
-            margin-left: 16px;
-        }
-
-        .autonomous-actions li {
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 1000;
             margin-bottom: 4px;
-            font-size: 12px;
+        }
+
+        [data-tooltip]:hover::after {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="title">🐻 Mama Bear AI</div>
-        <select class="model-selector" id="modelSelector">
-            <option value="">Loading models...</option>
-        </select>
-    </div>
+    <div class="main-container">
+        <!-- Clean Chat Area -->
+        <div class="chat-area">
+            <!-- Top Header with Inlaid Controls -->
+            <div class="top-header">
+                <div class="header-left">
+                    <button class="header-icon" data-tooltip="New Chat" onclick="newChat()">💬</button>
+                    <button class="header-icon" data-tooltip="Chat History" onclick="toggleChatHistory()">📚</button>
+                </div>
 
-    <div class="messages" id="messages">
-        <div class="message system">
-            🐻 Hi! I'm Mama Bear, your AI assistant with access to 20+ models, multimodal support, and autonomous capabilities. How can I help you today?
-        </div>
-    </div>
+                <div class="header-center">
+                    <select class="model-selector" id="modelSelect">
+                        <option value="gemini-2.0-flash-exp">🔥 Gemini 2.5 Flash</option>
+                        <option value="claude-3.5-sonnet">🧠 Claude 3.5 Sonnet</option>
+                        <option value="gpt-4o">⚡ GPT-4o</option>
+                    </select>
 
-    <div class="typing-indicator" id="typingIndicator">
-        🐻 Mama Bear is thinking...
-    </div>
+                    <!-- Mode Toggles -->
+                    <div class="mode-toggles">
+                        <button class="mode-toggle" id="expressMode" onclick="toggleMode('express')">⚡ Express</button>
+                        <button class="mode-toggle" id="agenticMode" onclick="toggleMode('agentic')">🤖 Agentic</button>
+                    </div>
 
-    <div class="input-container">
-        <div class="input-row">
-            <textarea class="message-input" id="messageInput" placeholder="Ask Mama Bear anything..." rows="1"></textarea>
-            <button class="send-button" id="sendButton">Send</button>
-        </div>
+                    <!-- Status Pills -->
+                    <div class="status-pills">
+                        <div class="status-pill pill-memory">MEM0</div>
+                        <div class="status-pill pill-mcp">MCP</div>
+                        <div class="status-pill pill-express" style="display: none;" id="expressPill">EXPRESS</div>
+                    </div>
+                </div>
 
-        <div class="action-buttons">
-            <button class="action-button" id="expressBtn">⚡ Express</button>
-            <button class="action-button" id="agenticBtn">🤖 Agentic</button>
-            <button class="action-button" id="analyzeBtn">📋 Analyze File</button>
-            <button class="action-button" id="searchBtn">🔍 Web Search</button>
-            <button class="action-button" id="saveBtn">💾 Save</button>
-            <button class="action-button" id="loadBtn">📂 Load</button>
-            <button class="action-button" id="clearBtn">🗑️ Clear</button>
+                <div class="header-right">
+                    <button class="header-icon" data-tooltip="MCP Tools" onclick="toggleMcpTools()">🔧</button>
+                    <button class="header-icon" data-tooltip="Background Terminal" onclick="openTerminal()">💻</button>
+                    <button class="header-icon" data-tooltip="Settings" onclick="openSettings()">⚙️</button>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="message assistant">
+                    <div class="message-avatar">🐻</div>
+                    <div class="message-content">
+                        <div>Welcome to Mama Bear AI! I'm ready to help with coding, analysis, and creative tasks. All your multimodal features are active!</div>
+                        <div class="message-meta">
+                            <span>gemini-2.0-flash-exp</span>
+                            <span>156ms</span>
+                            <span>MEM0 Enhanced</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typingIndicator">
+                🐻 Mama Bear is thinking...
+            </div>
+
+            <!-- Enhanced Chat Input with Inlaid Border Controls -->
+            <div class="chat-input-container">
+                <!-- Multimodal Upload Zone -->
+                <div class="upload-zone" id="uploadZone">
+                    <div>📁 Drop files here or click to browse</div>
+                    <div style="font-size: 11px; opacity: 0.7; margin-top: 4px;">
+                        Supports: Images, PDFs, Documents, Code files
+                    </div>
+                </div>
+
+                <!-- File Preview -->
+                <div class="file-preview" id="filePreview"></div>
+
+                <div class="input-wrapper">
+                    <!-- Left Border Controls -->
+                    <div class="left-controls">
+                        <button class="border-btn" data-tooltip="Upload File" onclick="toggleUploadZone()">📁</button>
+                        <button class="border-btn" data-tooltip="Add Context" onclick="toggleContextMenu()">📎</button>
+                        <button class="border-btn" data-tooltip="Voice Input" onclick="toggleVoice()" id="micBtn">🎙️</button>
+                    </div>
+
+                    <!-- Main Input -->
+                    <textarea class="main-input" id="mainInput" placeholder="Ask Mama Bear anything..." rows="1" oninput="autoResize(this)" onkeydown="handleKeydown(event)" onpaste="handlePaste(event)"></textarea>
+
+                    <!-- Right Border Controls -->
+                    <div class="right-controls">
+                        <button class="border-btn" data-tooltip="Emoji" onclick="toggleEmojiPicker()">😊</button>
+                        <button class="border-btn send" id="sendBtn" data-tooltip="Send Message" onclick="sendMessage()">→</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         const vscode = acquireVsCodeApi();
-        let currentModel = 'gemini-2.5-flash';
-        let availableModels = {};
+        let currentModel = 'gemini-2.0-flash-exp';
+        let isExpressMode = false;
+        let isAgenticMode = false;
+        let isRecording = false;
+        let uploadedFiles = [];
 
-        // DOM elements
-        const messagesDiv = document.getElementById('messages');
-        const messageInput = document.getElementById('messageInput');
-        const sendButton = document.getElementById('sendButton');
-        const modelSelector = document.getElementById('modelSelector');
-        const typingIndicator = document.getElementById('typingIndicator');
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('mainInput').focus();
+        });
 
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
+        // VS Code Extension Communication
+        window.addEventListener('message', event => {
+            const message = event.data;
+            
+            switch (message.type) {
+                case 'userMessage':
+                    addMessage('user', message.message.content, message.message);
+                    break;
+                case 'assistantMessage':
+                    addMessage('assistant', message.message.content, message.message);
+                    break;
+                case 'typing':
+                    setTyping(message.isTyping);
+                    break;
+                case 'fileUploaded':
+                    handleFileUploaded(message.fileName, message.response);
+                    break;
+                case 'imageProcessed':
+                    handleImageProcessed(message.imageData, message.response);
+                    break;
+                case 'voiceProcessed':
+                    handleVoiceProcessed(message.transcript, message.response);
+                    break;
+                case 'mcpConnected':
+                    updateMcpStatus(true);
+                    break;
+                case 'expressMode':
+                    setExpressMode(message.active);
+                    break;
+                case 'error':
+                    showError(message.error || message.message);
+                    break;
             }
         });
 
-        messageInput.addEventListener('input', () => {
-            messageInput.style.height = 'auto';
-            messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
-        });
-
-        modelSelector.addEventListener('change', (e) => {
-            if (e.target.value) {
-                vscode.postMessage({
-                    type: 'selectModel',
-                    model: e.target.value
-                });
+        // UI Functions
+        function addMessage(role, content, metadata = {}) {
+            const container = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = \`message \${role}\`;
+            
+            const avatar = role === 'user' ? '👤' : '🐻';
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            let metaInfo = '';
+            if (role === 'assistant') {
+                metaInfo = \`
+                    <div class="message-meta">
+                        <span>\${metadata.model || currentModel}</span>
+                        \${metadata.processingTime ? \`<span>\${metadata.processingTime}ms</span>\` : ''}
+                        <span>MEM0 Enhanced</span>
+                    </div>
+                \`;
+            } else {
+                metaInfo = \`<div class="message-meta"><span>\${time}</span></div>\`;
             }
-        });
-
-        // Action buttons
-        document.getElementById('expressBtn').addEventListener('click', () => {
-            const message = messageInput.value.trim();
-            if (message) {
-                vscode.postMessage({
-                    type: 'expressMode',
-                    message: message
-                });
-                messageInput.value = '';
-                messageInput.style.height = 'auto';
-            }
-        });
-
-        document.getElementById('agenticBtn').addEventListener('click', () => {
-            const task = messageInput.value.trim() || 'Take autonomous action to help with the current task';
-            vscode.postMessage({
-                type: 'agenticTakeover',
-                task: task
-            });
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
-        });
-
-        document.getElementById('analyzeBtn').addEventListener('click', () => {
-            vscode.postMessage({ type: 'analyzeFile' });
-        });
-
-        document.getElementById('searchBtn').addEventListener('click', () => {
-            const query = messageInput.value.trim();
-            if (query) {
-                vscode.postMessage({
-                    type: 'webSearch',
-                    query: query
-                });
-                messageInput.value = '';
-                messageInput.style.height = 'auto';
-            }
-        });
-
-        document.getElementById('saveBtn').addEventListener('click', () => {
-            vscode.postMessage({ type: 'saveContext' });
-        });
-
-        document.getElementById('loadBtn').addEventListener('click', () => {
-            vscode.postMessage({ type: 'loadContext' });
-        });
-
-        document.getElementById('clearBtn').addEventListener('click', () => {
-            vscode.postMessage({ type: 'clearChat' });
-            messagesDiv.innerHTML = '<div class="message system">🐻 Chat cleared. How can I help you?</div>';
-        });
-
-        function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message) return;
-
-            vscode.postMessage({
-                type: 'sendMessage',
-                message: message
-            });
-
-            messageInput.value = '';
-            messageInput.style.height = 'auto';
+            
+            messageDiv.innerHTML = \`
+                <div class="message-avatar">\${avatar}</div>
+                <div class="message-content">
+                    <div>\${formatMessage(content)}</div>
+                    \${metaInfo}
+                </div>
+            \`;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
         }
 
-        function addMessage(message) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = \`message \${message.role}\`;
+        function formatMessage(content) {
+            // Basic markdown-like formatting
+            return content
+                .replace(/\`\`\`([\\s\\S]*?)\`\`\`/g, '<pre><code>$1</code></pre>')
+                .replace(/\`([^\`]+)\`/g, '<code>$1</code>')
+                .replace(/\\*\\*([^\\*]+)\\*\\*/g, '<strong>$1</strong>')
+                .replace(/\\*([^\\*]+)\\*/g, '<em>$1</em>')
+                .replace(/\\n/g, '<br>');
+        }
+
+        function setTyping(isTyping) {
+            const indicator = document.getElementById('typingIndicator');
+            indicator.classList.toggle('active', isTyping);
+        }
+
+        function setExpressMode(active) {
+            const pill = document.getElementById('expressPill');
+            pill.style.display = active ? 'block' : 'none';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('mainInput');
+            const message = input.value.trim();
+            
+            if (!message && uploadedFiles.length === 0) return;
+            
+            // Send to VS Code extension
+            vscode.postMessage({
+                type: 'sendMessage',
+                message: message,
+                files: uploadedFiles,
+                expressMode: isExpressMode,
+                agenticMode: isAgenticMode
+            });
+            
+            // Clear input
+            input.value = '';
+            autoResize(input);
+            uploadedFiles = [];
+            updateFilePreview();
+        }
+
+        function handleKeydown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function handlePaste(event) {
+            const items = event.clipboardData.items;
+            
+            for (let item of items) {
+                if (item.type.indexOf('image') !== -1) {
+                    const file = item.getAsFile();
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        vscode.postMessage({
+                            type: 'pasteImage',
+                            imageData: e.target.result,
+                            prompt: 'Analyze this pasted image'
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                    event.preventDefault();
+                }
+            }
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        function toggleMode(mode) {
+            if (mode === 'express') {
+                isExpressMode = !isExpressMode;
+                document.getElementById('expressMode').classList.toggle('active', isExpressMode);
+            } else if (mode === 'agentic') {
+                isAgenticMode = !isAgenticMode;
+                document.getElementById('agenticMode').classList.toggle('active', isAgenticMode);
+            }
+        }
+
+        function toggleUploadZone() {
+            const zone = document.getElementById('uploadZone');
+            zone.classList.toggle('active');
+        }
+
+        function toggleVoice() {
+            isRecording = !isRecording;
+            const micBtn = document.getElementById('micBtn');
+            
+            if (isRecording) {
+                micBtn.classList.add('recording');
+                micBtn.innerHTML = '⏹️';
+                vscode.postMessage({ type: 'startRecording' });
+            } else {
+                micBtn.classList.remove('recording');
+                micBtn.innerHTML = '🎙️';
+                vscode.postMessage({ type: 'stopRecording' });
+            }
+        }
+
+        function updateFilePreview() {
+            const preview = document.getElementById('filePreview');
+            preview.innerHTML = uploadedFiles.map(file => \`
+                <div class="file-tag">
+                    📄 \${file.name}
+                    <span class="remove-file" onclick="removeFile('\${file.name}')">×</span>
+                </div>
+            \`).join('');
+        }
+
+        function removeFile(fileName) {
+            uploadedFiles = uploadedFiles.filter(f => f.name !== fileName);
+            updateFilePreview();
+        }
+
+        function handleFileUploaded(fileName, response) {
+            uploadedFiles.push({ name: fileName, response });
+            updateFilePreview();
+        }
+
+        function handleImageProcessed(imageData, response) {
+            addMessage('assistant', response);
+        }
+
+        function handleVoiceProcessed(transcript, response) {
+            if (transcript) {
+                addMessage('user', \`🎙️ \${transcript}\`);
+            }
+            if (response) {
+                addMessage('assistant', response);
+            }
+        }
+
+        function updateMcpStatus(connected) {
+            const pill = document.querySelector('.pill-mcp');
+            pill.style.opacity = connected ? 1 : 0.5;
+        }
+
+        function showError(error) {
+            addMessage('assistant', \`❌ Error: \${error}\`);
+        }
+
+        // Placeholder functions for remaining features
+        function newChat() { vscode.postMessage({ type: 'clearChat' }); }
+        function toggleChatHistory() { console.log('Chat history'); }
+        function toggleMcpTools() { vscode.postMessage({ type: 'mcpConnect' }); }
+        function toggleContextMenu() { console.log('Context menu'); }
+        function toggleEmojiPicker() { console.log('Emoji picker'); }
+        function openTerminal() { vscode.postMessage({ type: 'backgroundTerminal' }); }
+        function openSettings() { console.log('Settings'); }
+    </script>
+</body>
+</html>`;
+    }
+}
+exports.MamaBearChatProvider = MamaBearChatProvider;
+MamaBearChatProvider.viewType = 'mamaBearChat';
+-size;
+12;
+px;
+autonomous - actions;
+ul;
+{
+    margin: 0;
+    padding - left;
+    16;
+    px;
+}
+/style>
+    < /head>
+    < body >
+    class {
+    };
+"header" >
+    class {
+    };
+"title" > ;
+Mama;
+Bear;
+AI < /div>
+    < select;
+class {
+}
+"model-selector";
+id = "modelSelector" >
+    value;
+"" > Loading;
+models;
+/option>
+    < /select>
+    < /div>
+    < div;
+class {
+}
+"status-indicator express";
+id = "expressIndicator" > ;
+Express;
+Mode < /div>
+    < div;
+class {
+}
+"status-indicator agentic";
+id = "agenticIndicator" > ;
+Agentic;
+Mode < /div>
+    < div;
+class {
+}
+"status-indicator web-search";
+id = "webSearchIndicator" > ;
+Web;
+Search < /div>
+    < div;
+class {
+}
+"chat-container" >
+    class {
+    };
+"messages";
+id = "messages" >
+    class {
+    };
+"message system" >
+;
+Hi;
+I;
+'m Mama Bear, your AI assistant. I have access to 15+ AI models, my own RAG system, web search, and agentic capabilities. How can I help you today?
+    < /div>
+    < /div>
+    < div;
+class {
+}
+"typing-indicator";
+id = "typingIndicator" >
+;
+Mama;
+Bear;
+is;
+thinking;
+/div>
+    < /div>
+    < div;
+class {
+}
+"input-container" >
+    class {
+    };
+"input-row" >
+    class {
+    };
+"message-input";
+id = "messageInput";
+placeholder = "Ask Mama Bear anything...";
+rows = "1" > /textarea>
+    < button;
+class {
+}
+"send-button";
+id = "sendButton" > Send < /button>
+    < /div>
+    < div;
+class {
+}
+"action-buttons" >
+    class {
+    };
+"action-button";
+id = "expressBtn" > ;
+Express < /button>
+    < button;
+class {
+}
+"action-button";
+id = "agenticBtn" > ;
+Agentic < /button>
+    < button;
+class {
+}
+"action-button";
+id = "analyzeBtn" > ;
+Analyze;
+File < /button>
+    < button;
+class {
+}
+"action-button";
+id = "searchBtn" > ;
+Web;
+Search < /button>
+    < button;
+class {
+}
+"action-button";
+id = "saveBtn" > ;
+Save < /button>
+    < button;
+class {
+}
+"action-button";
+id = "loadBtn" > ;
+Load < /button>
+    < button;
+class {
+}
+"action-button";
+id = "clearBtn" > ;
+Clear < /button>
+    < /div>
+    < (/div>);
+const vscode = acquireVsCodeApi();
+let currentModel = 'gemini-2.0-flash-exp';
+let availableModels = {};
+// DOM elements
+const messagesDiv = document.getElementById('messages');
+const messageInput = document.getElementById('messageInput');
+const sendButton = document.getElementById('sendButton');
+const modelSelector = document.getElementById('modelSelector');
+const typingIndicator = document.getElementById('typingIndicator');
+// Status indicators
+const expressIndicator = document.getElementById('expressIndicator');
+const agenticIndicator = document.getElementById('agenticIndicator');
+const webSearchIndicator = document.getElementById('webSearchIndicator');
+// Event listeners
+sendButton.addEventListener('click', sendMessage);
+messageInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+modelSelector.addEventListener('change', (e) => {
+    if (e.target.value) {
+        vscode.postMessage({
+            type: 'selectModel',
+            model: e.target.value
+        });
+    }
+});
+// Action buttons
+document.getElementById('expressBtn').addEventListener('click', () => {
+    const message = messageInput.value.trim();
+    if (message) {
+        vscode.postMessage({
+            type: 'expressMode',
+            message: message
+        });
+        messageInput.value = '';
+    }
+});
+document.getElementById('agenticBtn').addEventListener('click', () => {
+    const task = messageInput.value.trim() || 'Take autonomous action to help with the current task';
+    vscode.postMessage({
+        type: 'agenticTakeover',
+        task: task
+    });
+    messageInput.value = '';
+});
+document.getElementById('analyzeBtn').addEventListener('click', () => {
+    vscode.postMessage({ type: 'analyzeFile' });
+});
+document.getElementById('searchBtn').addEventListener('click', () => {
+    const query = messageInput.value.trim();
+    if (query) {
+        vscode.postMessage({
+            type: 'webSearch',
+            query: query
+        });
+        messageInput.value = '';
+    }
+});
+document.getElementById('saveBtn').addEventListener('click', () => {
+    vscode.postMessage({ type: 'saveContext' });
+});
+document.getElementById('loadBtn').addEventListener('click', () => {
+    vscode.postMessage({ type: 'loadContext' });
+});
+document.getElementById('clearBtn').addEventListener('click', () => {
+    vscode.postMessage({ type: 'clearChat' });
+    messagesDiv.innerHTML = '<div class="message system">🐻 Chat cleared. How can I help you?</div>';
+});
+function sendMessage() {
+    const message = messageInput.value.trim();
+    if (!message)
+        return;
+    vscode.postMessage({
+        type: 'sendMessage',
+        message: message
+    });
+    messageInput.value = '';
+}
+function addMessage(message) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = ;
+    `message \${message.role}\`;
 
             if (message.isExpress) messageDiv.classList.add('express');
             if (message.isAgentic) messageDiv.classList.add('agentic');
 
-            const time = new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            let metaInfo = '';
-            if (message.role === 'assistant') {
-                metaInfo = \`
-                    <div class="message-meta">
-                        <span>\${message.model || currentModel}</span>
-                        \${message.processingTime ? \`<span>\${message.processingTime}ms</span>\` : ''}
-                        <span>\${time}</span>
-                    </div>
-                \`;
-            } else if (message.role === 'user') {
-                metaInfo = \`<div class="message-meta"><span>\${time}</span></div>\`;
-            }
-
             messageDiv.innerHTML = \`
                 <div>\${formatMessage(message.content)}</div>
-                \${metaInfo}
+                <div class="message-meta">
+                    <span>\${message.model || 'Unknown'}</span>
+                    <span>\${new Date(message.timestamp).toLocaleTimeString()}</span>
+                    \${message.processingTime ? \`<span>\${message.processingTime}ms</span>\` : ''}
+                </div>
             \`;
 
             if (message.autonomousActions && message.autonomousActions.length > 0) {
@@ -1129,31 +1770,24 @@ class MamaBearChatProvider {
 
         function updateModelSelector(models) {
             modelSelector.innerHTML = '';
-            
-            // Add default option
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Select Model...';
-            modelSelector.appendChild(defaultOption);
 
-            // Add models from registry
-            Object.keys(models).forEach(modelId => {
-                const model = models[modelId];
-                const option = document.createElement('option');
-                option.value = modelId;
-                option.textContent = \`\${model.name || modelId}\`;
-                if (modelId === currentModel) {
-                    option.selected = true;
+            Object.keys(models).forEach(category => {
+                if (typeof models[category] === 'object' && models[category] !== null) {
+                    Object.keys(models[category]).forEach(subcategory => {
+                        if (Array.isArray(models[category][subcategory])) {
+                            models[category][subcategory].forEach(model => {
+                                const option = document.createElement('option');
+                                option.value = model.id;
+                                option.textContent = \`\${model.name} (\${model.provider})\`;
+                                if (model.id === currentModel) {
+                                    option.selected = true;
+                                }
+                                modelSelector.appendChild(option);
+                            });
+                        }
+                    });
                 }
-                modelSelector.appendChild(option);
             });
-        }
-
-        function setActiveButton(buttonId, active) {
-            const button = document.getElementById(buttonId);
-            if (button) {
-                button.classList.toggle('active', active);
-            }
         }
 
         // Message handlers
@@ -1182,15 +1816,15 @@ class MamaBearChatProvider {
                     break;
 
                 case 'expressMode':
-                    setActiveButton('expressBtn', message.active);
+                    expressIndicator.classList.toggle('active', message.active);
                     break;
 
                 case 'agenticTakeover':
-                    setActiveButton('agenticBtn', message.active);
+                    agenticIndicator.classList.toggle('active', message.active);
                     break;
 
                 case 'webSearch':
-                    setActiveButton('searchBtn', message.active);
+                    webSearchIndicator.classList.toggle('active', message.active);
                     break;
 
                 case 'modelChanged':
@@ -1228,8 +1862,5 @@ class MamaBearChatProvider {
     </script>
 </body>
 </html>`;
-    }
 }
-exports.MamaBearChatProvider = MamaBearChatProvider;
-MamaBearChatProvider.viewType = 'mamaBearChat';
-//# sourceMappingURL=mama_bear_chat_provider.js.map
+//# sourceMappingURL=mama_bear_chat_provider_broken.js.map
